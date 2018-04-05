@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,5 +30,42 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/navigation" />
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/fromStation_toggleButton"
+        android:layout_width="133dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:text="出发站"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/endStation_toggleButton"
+        android:layout_width="133dp"
+        android:layout_height="87dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="60dp"
+        android:text="到达站"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="41dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="85dp"
+        android:background="#00000000"
+        app:layout_constraintEnd_toStartOf="@+id/fromStation_toggleButton"
+        app:layout_constraintStart_toEndOf="@+id/endStation_toggleButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_go_and_back" />
 
 </android.support.constraint.ConstraintLayout>
