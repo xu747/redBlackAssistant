@@ -11,7 +11,7 @@
     <style name="Theme.SearchView" parent="Widget.AppCompat.Light.SearchView">
         <item name="searchIcon">@drawable/ic_search</item>
         <item name="closeIcon">@drawable/ic_close</item>
-        <item name="queryHint">输入车站名称或拼音</item>
+        <item name="queryHint">输入车站名称或拼音首字母</item>
         <!--<item name="queryBackground">#FFFFFF</item>-->
     </style>
 
