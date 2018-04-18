@@ -59,7 +59,7 @@ dependencies {
     implementation "com.hanks:htextview-evaporate:$htextview_version"   // optional
     implementation "com.hanks:htextview-fall:$htextview_version"        // optional
 
-    implementation 'com.github.huangyanbin:SmartTable:2.2.0'
+    implementation 'com.github.huangyanbin:SmartTable:1.7.1'
 
     implementation 'com.google.code.gson:gson:2.8.2'
 }

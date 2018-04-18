@@ -3,36 +3,20 @@ package cn.charlesxu.redblackassistant.model;
 import com.bin.david.form.annotation.SmartColumn;
 import com.bin.david.form.annotation.SmartTable;
 
-@SmartTable(name="余票信息")
 public class QueryLeftNewDTO {
     private String secretStr;
     private String buttonTextInfo;
     private String trainNo;
-
-    @SmartColumn(id = 1,name = "车次")
     private String stationTrainCode;
-
     private String startStationTelecode;
     private String endStationTelecode;
     private String fromStationTelecode;
     private String toStationTelecode;
-
-
-    @SmartColumn(id = 2,name = "出发站")
     private String fromStationName;
-
-    @SmartColumn(id = 3,name = "到达站")
     private String toStationName;
-
-    @SmartColumn(id = 4,name = "出发时间")
     private String startTime;
-
-    @SmartColumn(id = 5,name = "到达时间")
     private String arriveTime;
-
-    @SmartColumn(id = 6,name = "历时")
     private String lishi;
-
     private String canWebBuy;
     private String ypInfo;
     private String startTrainDate;
@@ -40,52 +24,26 @@ public class QueryLeftNewDTO {
     private String locationCode;
     private String fromStationNo;
     private String toStationNo;
-
     private String controlledTrainFlag;
     private String ggNum;
-
-    @SmartColumn(id = 7,name = "高级软卧")
     private String grNum;
-    @SmartColumn(id = 8,name = "其他")
     private String qtNum;
-    @SmartColumn(id = 9,name = "软卧")
     private String rwNum;
-    @SmartColumn(id = 10,name = "软座")
     private String rzNum;
-    @SmartColumn(id = 11,name = "特等座")
     private String tzNum;
-    @SmartColumn(id = 12,name = "无座")
     private String wzNum;
-
     private String ybNum;
-
-    @SmartColumn(id = 13,name = "硬卧")
     private String ywNum;
-    @SmartColumn(id = 14,name = "硬座")
     private String yzNum;
-    @SmartColumn(id = 15,name = "二等座")
     private String zeNum;
-    @SmartColumn(id = 16,name = "一等座")
     private String zyNum;
-    @SmartColumn(id = 17,name = "商务座")
     private String swzNum;
-    @SmartColumn(id = 18,name = "动卧")
     private String srrbNum;
-
-
     private String ypEx;
     private String seatTypes;
-
-    @SmartColumn(id = 19,name = "支持积分兑换")
     private String isSupportCredits;
-
-    @SmartColumn(id = 20,name = "支持身份证")
     private String isSupportCard;
-
-    @SmartColumn(id = 21,name = "始发站")
     private String startStationName;
-
-    @SmartColumn(id = 22,name = "终到站")
     private String endStationName;
 
     public String getSecretStr() {
