@@ -11,7 +11,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug{
+        debug {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
@@ -40,7 +40,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:mockwebserver:3.10.0'
     implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1'
 
-    implementation ('com.philliphsu:bottomsheetpickers:2.4.1') {
+    implementation('com.philliphsu:bottomsheetpickers:2.4.1') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'gridlayout-v7'
@@ -59,4 +59,7 @@ dependencies {
     implementation "com.hanks:htextview-evaporate:$htextview_version"   // optional
     implementation "com.hanks:htextview-fall:$htextview_version"        // optional
 
+    implementation 'com.github.huangyanbin:SmartTable:2.2.0'
+
+    implementation 'com.google.code.gson:gson:2.8.2'
 }

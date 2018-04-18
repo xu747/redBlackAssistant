@@ -3,4 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="c_accent">#325C80</color>
+    <color name="floating_action_button_bg">@color/c_accent</color>
+    <color name="floating_action_button_pressed_bg">#212121</color>
 </resources>

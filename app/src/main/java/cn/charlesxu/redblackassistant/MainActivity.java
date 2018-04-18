@@ -178,7 +178,11 @@ public class MainActivity extends AppCompatActivity implements
                         try {
                             Response response = client.newCall(request).execute();
                             String responseDataString = response.body().string();
-                            System.out.println("结果："+responseDataString);
+                            //System.out.println("结果："+responseDataString);
+
+                            Intent intent = new Intent(MainActivity.this,leftTicketActivity.class);
+                            intent.putExtra("leftTicketJSONString",responseDataString);
+                            startActivity(intent);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
