@@ -31,6 +31,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:support-v4:27.1.0'
+    implementation 'com.android.support:support-annotations:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -59,7 +60,11 @@ dependencies {
     implementation "com.hanks:htextview-evaporate:$htextview_version"   // optional
     implementation "com.hanks:htextview-fall:$htextview_version"        // optional
 
-    implementation 'com.github.huangyanbin:SmartTable:1.7.1'
-
+    implementation 'com.github.huangyanbin:SmartTable:2.2.0'
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     implementation 'com.google.code.gson:gson:2.8.2'
+
+    implementation 'org.jsoup:jsoup:1.9.2'
+
+    implementation 'com.zhy:okhttputils:2.6.2'
 }

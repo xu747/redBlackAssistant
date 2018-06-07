@@ -2,11 +2,15 @@ package cn.charlesxu.redblackassistant;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.bin.david.form.core.SmartTable;
 import com.bin.david.form.core.TableConfig;
-import com.bin.david.form.data.Column;
+import com.bin.david.form.data.column.Column;
+import com.bin.david.form.data.style.FontStyle;
 import com.bin.david.form.data.table.TableData;
+import com.bin.david.form.listener.OnColumnItemClickListener;
+import com.bin.david.form.utils.DensityUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -29,6 +33,7 @@ public class leftTicketActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_left_ticket);
+        FontStyle.setDefaultTextSize(DensityUtils.sp2px(this,14)); //设置全局字体大小
 
         String leftTicketJSONString = getIntent().getStringExtra("leftTicketJSONString");
         //System.out.println("结果:" + leftTicketJSONString);
@@ -81,7 +86,17 @@ public class leftTicketActivity extends AppCompatActivity {
 
         Column<String> endStationNameColumn = new Column<>("终到","endStationName");
 
-        TableData<QueryLeftNewDTO> tableData = new TableData<>("余票信息",queryLeftNewDTOList,stationTrainCodeColumn,fromStationNameColumn,startTimeColumn,toStationNameColumn,arriveTimeColumn,lishiColumn,zeNumColumn,zyNumColumn,swzNumColumn);
+        TableData<QueryLeftNewDTO> tableData = new TableData<>("余票信息",queryLeftNewDTOList,stationTrainCodeColumn,fromStationNameColumn,startTimeColumn,toStationNameColumn,arriveTimeColumn,lishiColumn,zeNumColumn,zyNumColumn,swzNumColumn,grNumColumn,rwNumColumn,srrbNumColumn,ywNumColumn,rzNumColumn,yzNumColumn,wzNumColumn,qtNumColumn,tzNumColumn,isSupportCardColumn,isSupportCreditsColumn,startStationNameColumn,endStationNameColumn);
+        tableData.setOnRowClickListener(new TableData.OnRowClickListener<QueryLeftNewDTO>() {
+            @Override
+            public void onClick(Column column, QueryLeftNewDTO queryLeftNewDTO, int col, int row) {
+                if(queryLeftNewDTO.getSecretStr().equals("null")){
+                    Toast.makeText(leftTicketActivity.this,"该车次无法订票",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(leftTicketActivity.this,"车次:"+queryLeftNewDTO.getStationTrainCode(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         table.setTableData(tableData);
         table.setZoom(true,0.5f,2);

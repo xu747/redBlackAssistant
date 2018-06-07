@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/captchaPicture_imageView"
+        android:layout_width="586px"
+        android:layout_height="380px"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+</LinearLayout>
