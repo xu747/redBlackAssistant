@@ -120,11 +120,15 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
                         String trainMonthString = "01";
                         if(trainMonth < 10){
                             trainMonthString = "0" + trainMonth;
+                        }else {
+                            trainMonthString = "" + trainMonth;
                         }
 
                         String trainDayString = "01";
                         if(trainDay < 10){
                             trainDayString = "0" + trainDay;
+                        }else {
+                            trainDayString = "" + trainDay;
                         }
 
                         String queryUrl = "https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date=" + trainYear + "-" + trainMonthString + "-" + trainDayString + "&leftTicketDTO.from_station=" + fromStation.getTgCode() + "&leftTicketDTO.to_station=" + endStation.getTgCode() + "&purpose_codes=" + ticketCategory;

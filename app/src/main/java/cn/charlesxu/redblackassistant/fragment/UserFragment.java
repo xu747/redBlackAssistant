@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.JsonElement;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import cn.charlesxu.redblackassistant.BaseFragment;
 import cn.charlesxu.redblackassistant.LoginActivity;
 import cn.charlesxu.redblackassistant.MyApplication;
+import cn.charlesxu.redblackassistant.QueryOrderActivity;
 import cn.charlesxu.redblackassistant.R;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -27,6 +29,7 @@ import okhttp3.Response;
 
 public class UserFragment extends BaseFragment {
     private TextView userTextView;
+    private Button queryOrderButton;
 
     private Handler handler = new Handler();
 
@@ -36,9 +39,6 @@ public class UserFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.user_fragment,container,false);
         userTextView = view.findViewById(R.id.user_textView);
-
-        getUserName();
-
         userTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,12 +46,16 @@ public class UserFragment extends BaseFragment {
             }
         });
 
+        queryOrderButton = view.findViewById(R.id.query_order_button);
+        queryOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initQueryOrderActivity();
+            }
+        });
+
+        getUserName();
         return view;
-    }
-
-    public void queryOrder(boolean isComplete, int queryType, String queryStartDate, String queryEndDate){
-
-
     }
 
     public void checkUser(){
@@ -63,8 +67,10 @@ public class UserFragment extends BaseFragment {
                 Request request = new Request.Builder()
                         .url(checkUserUrl)
                         .build();
+
+                Response response = null;
                 try {
-                    Response response = client.newCall(request).execute();
+                    response = client.newCall(request).execute();
                     String responseDataString = response.body().string();
                     System.out.println("CheckUser: " + responseDataString);
                     JsonElement je = new JsonParser().parse(responseDataString);
@@ -121,6 +127,11 @@ public class UserFragment extends BaseFragment {
 
     public void initLoginActivity(){
         Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void initQueryOrderActivity(){
+        Intent intent = new Intent(getActivity(), QueryOrderActivity.class);
         startActivity(intent);
     }
 }
