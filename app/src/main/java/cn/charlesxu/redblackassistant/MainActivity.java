@@ -9,11 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-
 import cn.charlesxu.redblackassistant.fragment.MainQueryFragment;
 import cn.charlesxu.redblackassistant.fragment.TrainFragment;
 import cn.charlesxu.redblackassistant.fragment.UserFragment;

@@ -1,21 +1,16 @@
 package cn.charlesxu.redblackassistant;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.bin.david.form.core.SmartTable;
-import com.bin.david.form.core.TableConfig;
 import com.bin.david.form.data.column.Column;
 import com.bin.david.form.data.style.FontStyle;
 import com.bin.david.form.data.table.TableData;
-import com.bin.david.form.listener.OnColumnItemClickListener;
 import com.bin.david.form.utils.DensityUtils;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 import java.util.ArrayList;
 import java.util.List;

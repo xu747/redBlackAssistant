@@ -25,15 +25,14 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 
-import cn.charlesxu.redblackassistant.LoginActivity;
 import cn.charlesxu.redblackassistant.MyApplication;
 import cn.charlesxu.redblackassistant.R;
+import cn.charlesxu.redblackassistant.db.MyPoint;
 import cn.charlesxu.redblackassistant.utils.HTTPSUtils;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import cn.charlesxu.redblackassistant.db.MyPoint;
 
 
 public class CaptchaFragment extends DialogFragment {
