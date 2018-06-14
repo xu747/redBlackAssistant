@@ -85,10 +85,11 @@ public class leftTicketActivity extends AppCompatActivity {
         tableData.setOnRowClickListener(new TableData.OnRowClickListener<QueryLeftNewDTO>() {
             @Override
             public void onClick(Column column, QueryLeftNewDTO queryLeftNewDTO, int col, int row) {
-                if(queryLeftNewDTO.getSecretStr().equals("null")){
+                if(queryLeftNewDTO.getSecretStr().equals("null") || queryLeftNewDTO.getSecretStr().equals("")){
                     Toast.makeText(leftTicketActivity.this,"该车次无法订票",Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(leftTicketActivity.this,"车次:"+queryLeftNewDTO.getStationTrainCode(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(leftTicketActivity.this,"开始订车次:"+queryLeftNewDTO.getStationTrainCode(),Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

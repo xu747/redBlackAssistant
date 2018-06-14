@@ -32,7 +32,8 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".QueryOrderActivity" />
-        <activity android:name=".QueryOrderResultActivity"></activity>
+        <activity android:name=".QueryOrderResultActivity" />
+        <activity android:name=".submitOrderActivity"></activity>
     </application>
 
 </manifest>

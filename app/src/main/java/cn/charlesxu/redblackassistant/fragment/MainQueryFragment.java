@@ -117,21 +117,9 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
                             ticketCategory = adultTicket;
                         }
 
-                        String trainMonthString = "01";
-                        if(trainMonth < 10){
-                            trainMonthString = "0" + trainMonth;
-                        }else {
-                            trainMonthString = "" + trainMonth;
-                        }
+                        String trainDateString = processDate(trainYear,trainMonth,trainDay);
 
-                        String trainDayString = "01";
-                        if(trainDay < 10){
-                            trainDayString = "0" + trainDay;
-                        }else {
-                            trainDayString = "" + trainDay;
-                        }
-
-                        String queryUrl = "https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date=" + trainYear + "-" + trainMonthString + "-" + trainDayString + "&leftTicketDTO.from_station=" + fromStation.getTgCode() + "&leftTicketDTO.to_station=" + endStation.getTgCode() + "&purpose_codes=" + ticketCategory;
+                        String queryUrl = "https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date=" + trainDateString + "&leftTicketDTO.from_station=" + fromStation.getTgCode() + "&leftTicketDTO.to_station=" + endStation.getTgCode() + "&purpose_codes=" + ticketCategory;
                         System.out.println("URL:" + queryUrl);
 
                         OkHttpClient client = new OkHttpClient();
@@ -143,6 +131,10 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
 
                             Intent intent = new Intent(getActivity(),leftTicketActivity.class);
                             intent.putExtra("leftTicketJSONString",responseDataString);
+                            intent.putExtra("trainDateString",trainDateString);
+                            intent.putExtra("purposeCodes",ticketCategory);
+                            intent.putExtra("fromStationName",fromStation.getStationName());
+                            intent.putExtra("toStationName",endStation.getStationName());
                             startActivity(intent);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -298,6 +290,24 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
         mText.setText("乘车日期: " + DateFormat.getDateFormat(getActivity()).format(now.getTime()));
 
         isStudentTicket = false;
+    }
+
+    private String processDate(int year,int month,int day){
+        String dateString = "" + year;
+
+        if(month < 10){
+            dateString = dateString + "-" + "0" + month;
+        }else {
+            dateString = dateString + "-" + month;
+        }
+
+        if(day < 10){
+            dateString = dateString + "-" + "0" + day;
+        }else {
+            dateString = dateString + "-" + day;
+        }
+
+        return dateString;
     }
 
 }
