@@ -1,5 +1,7 @@
 package cn.charlesxu.redblackassistant;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ public class leftTicketActivity extends AppCompatActivity {
     private SmartTable table;
     private List<QueryLeftNewDTO> queryLeftNewDTOList = new ArrayList<>();
     private StationService stationService = new StationService();
+    private String leftTicketJSONString,trainDateString,purposeCodes,fromStationName,toStationName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,12 @@ public class leftTicketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_left_ticket);
         FontStyle.setDefaultTextSize(DensityUtils.sp2px(this,14)); //设置全局字体大小
 
-        String leftTicketJSONString = getIntent().getStringExtra("leftTicketJSONString");
+        leftTicketJSONString = getIntent().getStringExtra("leftTicketJSONString");
+        trainDateString = getIntent().getStringExtra("trainDateString");
+        purposeCodes = getIntent().getStringExtra("purposeCodes");
+        fromStationName = getIntent().getStringExtra("fromStationName");
+        toStationName = getIntent().getStringExtra("toStationName");
+
         //System.out.println("结果:" + leftTicketJSONString);
         leftTicketJSONTOClass(leftTicketJSONString);
 
@@ -89,7 +97,16 @@ public class leftTicketActivity extends AppCompatActivity {
                     Toast.makeText(leftTicketActivity.this,"该车次无法订票",Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(leftTicketActivity.this,"开始订车次:"+queryLeftNewDTO.getStationTrainCode(),Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent(getActivity(),submitOrderActivity.class);
+                    intent.putExtra("queryLeftNewDTO",queryLeftNewDTO);
+                    intent.putExtra("secretStr",queryLeftNewDTO.getSecretStr());
+                    intent.putExtra("trainDateString",trainDateString);
+                    intent.putExtra("backTrainDateString",trainDateString);
+                    intent.putExtra("tourFlag","dc");
+                    intent.putExtra("purposeCodes",purposeCodes);
+                    intent.putExtra("fromStationName",fromStationName);
+                    intent.putExtra("toStationName",toStationName);
+                    startActivity(intent);
                 }
             }
         });
@@ -152,5 +169,9 @@ public class leftTicketActivity extends AppCompatActivity {
 
             queryLeftNewDTOList.add(queryLeftNewDTO);
         }
+    }
+
+    private Activity getActivity(){
+        return this;
     }
 }
