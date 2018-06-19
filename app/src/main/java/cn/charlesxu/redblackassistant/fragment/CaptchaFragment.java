@@ -42,8 +42,8 @@ public class CaptchaFragment extends DialogFragment {
     private Runnable runnableUi;
     private Paint paint;
     private Canvas canvas;
-    private int startX,startY;
-    private Bitmap captchaBitmap,bitmapCopy,bitmapYanzheng;
+    private int startX, startY;
+    private Bitmap captchaBitmap, bitmapCopy, bitmapYanzheng;
     private HTTPSUtils utils;
     private MyPoint points = new MyPoint();
     private StringBuilder sb = new StringBuilder();
@@ -52,14 +52,14 @@ public class CaptchaFragment extends DialogFragment {
     CallBackValue callBackValue;
 
     //定义一个回调接口
-    public interface CallBackValue{
+    public interface CallBackValue {
         public void SendMessageValue(String strValue);
     }
 
-    public Bitmap drawableToBitmap (Drawable drawable) {
+    public Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -70,12 +70,12 @@ public class CaptchaFragment extends DialogFragment {
         return bitmap;
     }
 
-    public void getCaptchaPicture(){
+    public void getCaptchaPicture() {
         String captchaUrl = "https://kyfw.12306.cn/passport/captcha/captcha-image";
         Request request = new Request.Builder()
-                .addHeader("login_site","E")
-                .addHeader("module","login")
-                .addHeader("rand","sjrand")
+                .addHeader("login_site", "E")
+                .addHeader("module", "login")
+                .addHeader("rand", "sjrand")
                 .get()
                 .url(captchaUrl)
                 .build();
@@ -90,15 +90,15 @@ public class CaptchaFragment extends DialogFragment {
         }
     }
 
-    public void checkCaptcha(){
+    public void checkCaptcha() {
         String checkCaptchaUrl = "https://kyfw.12306.cn/passport/captcha/captcha-check";
-        String captchaPassCode = sb.toString().substring(0,sb.toString().length()-1);
-        System.out.println("验证码："+captchaPassCode);
+        String captchaPassCode = sb.toString().substring(0, sb.toString().length() - 1);
+        System.out.println("验证码：" + captchaPassCode);
         FormBody body = new FormBody.Builder()
                 .add("answer", captchaPassCode)
-                .add("login_site","E")
+                .add("login_site", "E")
                 .add("rand", "sjrand")
-                .add("_json_att","")
+                .add("_json_att", "")
                 .build();
 
         Request request = new Request.Builder()
@@ -125,7 +125,6 @@ public class CaptchaFragment extends DialogFragment {
     }
 
 
-
     /**
      * fragment与activity产生关联是  回调这个方法
      */
@@ -134,7 +133,7 @@ public class CaptchaFragment extends DialogFragment {
         // TODO Auto-generated method stub
         super.onAttach(activity);
         //当前fragment从activity重写了回调接口  得到接口的实例化对象
-        callBackValue =(CallBackValue) getActivity();
+        callBackValue = (CallBackValue) getActivity();
     }
 
     @Override
@@ -166,7 +165,7 @@ public class CaptchaFragment extends DialogFragment {
                     case MotionEvent.ACTION_DOWN:
                         startX = (int) motionEvent.getX() / 2;
                         startY = (int) motionEvent.getY() / 2;
-                        sb.append(startX + "," +startY);
+                        sb.append(startX + "," + startY);
                         sb.append(",");
                         System.out.println(sb.toString());
                         break;
@@ -190,13 +189,13 @@ public class CaptchaFragment extends DialogFragment {
         });
 
         handler = new Handler();
-        runnableUi = new Runnable(){
+        runnableUi = new Runnable() {
             @Override
             public void run() {
                 //更新界面
                 imageView.setImageBitmap(captchaBitmap);
                 imageView.buildDrawingCache();
-                Bitmap bitmap1= imageView.getDrawingCache();
+                Bitmap bitmap1 = imageView.getDrawingCache();
                 bitmapCopy = Bitmap.createBitmap(bitmap1.getWidth(), bitmap1.getHeight(), bitmap1.getConfig());
                 paint = new Paint();
                 canvas = new Canvas(bitmapCopy);

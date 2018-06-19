@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-public class BaseFragment extends Fragment{
+public class BaseFragment extends Fragment {
     private Activity activity;
 
-    public Context getContext(){
-        if(activity == null){
+    public Context getContext() {
+        if (activity == null) {
             return MyApplication.getContext();
         }
         return activity;

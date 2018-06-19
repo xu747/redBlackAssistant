@@ -33,17 +33,17 @@ import okhttp3.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-public class MainQueryFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener{
+public class MainQueryFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener {
     //private static final String TAG = "MainQueryFragment";
     private static final String TAG = "MainActivity";
 
-    private TextView mTextMessage,mText;
+    private TextView mTextMessage, mText;
     private CheckBox isStudentCheckBox;
-    private Button fromStationButton,endStationButton,queryButton;
+    private Button fromStationButton, endStationButton, queryButton;
     private ImageButton exchageButton;
 
-    static Station fromStation,endStation;
-    static int trainYear,trainMonth,trainDay;
+    static Station fromStation, endStation;
+    static int trainYear, trainMonth, trainDay;
     static boolean isStudentTicket;
 
     static String adultTicket = "ADULT";
@@ -51,14 +51,14 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.main_query_fragment,container,false);
+        View view = inflater.inflate(R.layout.main_query_fragment, container, false);
 
         mText = (TextView) view.findViewById(R.id.date_textView);
         mText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment dialogFragment = createDialog();
-                dialogFragment.show(getActivity().getSupportFragmentManager(),TAG);
+                dialogFragment.show(getActivity().getSupportFragmentManager(), TAG);
             }
         });
 
@@ -71,16 +71,16 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
         fromStationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),StationActivity.class);
-                startActivityForResult(intent,1);
+                Intent intent = new Intent(getActivity(), StationActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
 
         endStationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),StationActivity.class);
-                startActivityForResult(intent,2);
+                Intent intent = new Intent(getActivity(), StationActivity.class);
+                startActivityForResult(intent, 2);
             }
         });
 
@@ -95,9 +95,9 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
         isStudentCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     isStudentTicket = true;
-                }else {
+                } else {
                     isStudentTicket = false;
                 }
             }
@@ -111,13 +111,13 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
                     @Override
                     public void run() {
                         String ticketCategory;
-                        if(isStudentTicket){
+                        if (isStudentTicket) {
                             ticketCategory = studentTicket;
-                        }else {
+                        } else {
                             ticketCategory = adultTicket;
                         }
 
-                        String trainDateString = processDate(trainYear,trainMonth,trainDay);
+                        String trainDateString = processDate(trainYear, trainMonth, trainDay);
 
                         String queryUrl = "https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date=" + trainDateString + "&leftTicketDTO.from_station=" + fromStation.getTgCode() + "&leftTicketDTO.to_station=" + endStation.getTgCode() + "&purpose_codes=" + ticketCategory;
                         System.out.println("URL:" + queryUrl);
@@ -129,12 +129,12 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
                             String responseDataString = response.body().string();
                             //System.out.println("结果："+responseDataString);
 
-                            Intent intent = new Intent(getActivity(),leftTicketActivity.class);
-                            intent.putExtra("leftTicketJSONString",responseDataString);
-                            intent.putExtra("trainDateString",trainDateString);
-                            intent.putExtra("purposeCodes",ticketCategory);
-                            intent.putExtra("fromStationName",fromStation.getStationName());
-                            intent.putExtra("toStationName",endStation.getStationName());
+                            Intent intent = new Intent(getActivity(), leftTicketActivity.class);
+                            intent.putExtra("leftTicketJSONString", responseDataString);
+                            intent.putExtra("trainDateString", trainDateString);
+                            intent.putExtra("purposeCodes", ticketCategory);
+                            intent.putExtra("fromStationName", fromStation.getStationName());
+                            intent.putExtra("toStationName", endStation.getStationName());
                             startActivity(intent);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -184,8 +184,8 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
         dialog.setThemeDark(themeDark);
         if (custom || customDark) {
             dialog.setAccentColor(0xFFFF4081);
-            dialog.setBackgroundColor(custom? 0xFF90CAF9 : 0xFF2196F3);
-            dialog.setHeaderColor(custom? 0xFF90CAF9 : 0xFF2196F3);
+            dialog.setBackgroundColor(custom ? 0xFF90CAF9 : 0xFF2196F3);
+            dialog.setHeaderColor(custom ? 0xFF90CAF9 : 0xFF2196F3);
             dialog.setHeaderTextDark(custom);
         }
 
@@ -193,18 +193,18 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
     }
 
     @Override
-    public void onActivityResult(int requestCode,int resultCode,Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        switch (requestCode){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
             case 1:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Station selectStation = (Station) data.getSerializableExtra("station");
                     fromStation = selectStation;
                     fromStationButton.setText(selectStation.getStationName());
                 }
                 break;
             case 2:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Station selectStation = (Station) data.getSerializableExtra("station");
                     endStation = selectStation;
                     endStationButton.setText(selectStation.getStationName());
@@ -213,7 +213,7 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
         }
     }
 
-    public void exchangeStation(){
+    public void exchangeStation() {
         Station tempStation = fromStation;
         fromStation = endStation;
         endStation = tempStation;
@@ -221,7 +221,7 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
         endStationButton.setText(endStation.getStationName());
     }
 
-    private void getStationsFrom12306(){
+    private void getStationsFrom12306() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -232,14 +232,14 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
                     String responseDataString = response.body().string();
 
                     //处理station_name.js数据
-                    responseDataString = responseDataString.substring(20,responseDataString.length()-2);
+                    responseDataString = responseDataString.substring(20, responseDataString.length() - 2);
                     //System.out.println(responseDataString);
                     String[] rawStation = responseDataString.split("\\@");
 
                     //DataSupport.deleteAll(Station.class);
                     //List<Station> stations = new ArrayList<>();
 
-                    for(int i = 1; i < rawStation.length; i++){
+                    for (int i = 1; i < rawStation.length; i++) {
                         String[] stationStringData = rawStation[i].split("\\|");
                         Station station = new Station();
                         station.setPinYinInitialism(stationStringData[0]);
@@ -249,8 +249,8 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
                         station.setInitialism(stationStringData[4]);
                         station.setId(new Integer(stationStringData[5]));
 
-                        List<Station> stations = DataSupport.where("tgCode = ?",station.getTgCode()).find(Station.class);
-                        if(stations.isEmpty()){
+                        List<Station> stations = DataSupport.where("tgCode = ?", station.getTgCode()).find(Station.class);
+                        if (stations.isEmpty()) {
                             station.save();
                         }
                     }
@@ -263,7 +263,7 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
 
     }
 
-    private void init(){
+    private void init() {
         Station station_bjb = new Station();
         station_bjb.setId(0);
         station_bjb.setTgCode("BOP");
@@ -292,18 +292,18 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
         isStudentTicket = false;
     }
 
-    private String processDate(int year,int month,int day){
+    private String processDate(int year, int month, int day) {
         String dateString = "" + year;
 
-        if(month < 10){
+        if (month < 10) {
             dateString = dateString + "-" + "0" + month;
-        }else {
+        } else {
             dateString = dateString + "-" + month;
         }
 
-        if(day < 10){
+        if (day < 10) {
             dateString = dateString + "-" + "0" + day;
-        }else {
+        } else {
             dateString = dateString + "-" + day;
         }
 

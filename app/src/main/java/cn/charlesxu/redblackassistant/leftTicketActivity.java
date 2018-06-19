@@ -25,13 +25,13 @@ public class leftTicketActivity extends AppCompatActivity {
     private SmartTable table;
     private List<QueryLeftNewDTO> queryLeftNewDTOList = new ArrayList<>();
     private StationService stationService = new StationService();
-    private String leftTicketJSONString,trainDateString,purposeCodes,fromStationName,toStationName;
+    private String leftTicketJSONString, trainDateString, purposeCodes, fromStationName, toStationName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_left_ticket);
-        FontStyle.setDefaultTextSize(DensityUtils.sp2px(this,14)); //设置全局字体大小
+        FontStyle.setDefaultTextSize(DensityUtils.sp2px(this, 14)); //设置全局字体大小
 
         leftTicketJSONString = getIntent().getStringExtra("leftTicketJSONString");
         trainDateString = getIntent().getStringExtra("trainDateString");
@@ -44,84 +44,84 @@ public class leftTicketActivity extends AppCompatActivity {
 
         table = (SmartTable<QueryLeftNewDTO>) findViewById(R.id.table);
 
-        Column<String> stationTrainCodeColumn = new Column<>("车次","stationTrainCode");
+        Column<String> stationTrainCodeColumn = new Column<>("车次", "stationTrainCode");
         stationTrainCodeColumn.setFixed(true);
 
-        Column<String> fromStationNameColumn = new Column<>("出发","fromStationName");
+        Column<String> fromStationNameColumn = new Column<>("出发", "fromStationName");
 
-        Column<String> toStationNameColumn = new Column<>("到达","toStationName");
+        Column<String> toStationNameColumn = new Column<>("到达", "toStationName");
 
-        Column<String> startTimeColumn = new Column<>("开点","startTime");
+        Column<String> startTimeColumn = new Column<>("开点", "startTime");
 
-        Column<String> arriveTimeColumn = new Column<>("到点","arriveTime");
+        Column<String> arriveTimeColumn = new Column<>("到点", "arriveTime");
 
-        Column<String> lishiColumn = new Column<>("历时","lishi");
+        Column<String> lishiColumn = new Column<>("历时", "lishi");
 
-        Column<String> grNumColumn = new Column<>("高软","grNum");
+        Column<String> grNumColumn = new Column<>("高软", "grNum");
 
-        Column<String> qtNumColumn = new Column<>("其他","qtNum");
+        Column<String> qtNumColumn = new Column<>("其他", "qtNum");
 
-        Column<String> rwNumColumn = new Column<>("软卧","rwNum");
+        Column<String> rwNumColumn = new Column<>("软卧", "rwNum");
 
-        Column<String> rzNumColumn = new Column<>("软座","rzNum");
+        Column<String> rzNumColumn = new Column<>("软座", "rzNum");
 
-        Column<String> tzNumColumn = new Column<>("特等座","tzNum");
+        Column<String> tzNumColumn = new Column<>("特等座", "tzNum");
 
-        Column<String> wzNumColumn = new Column<>("无座","wzNum");
+        Column<String> wzNumColumn = new Column<>("无座", "wzNum");
 
-        Column<String> ywNumColumn = new Column<>("硬卧","ywNum");
+        Column<String> ywNumColumn = new Column<>("硬卧", "ywNum");
 
-        Column<String> yzNumColumn = new Column<>("硬座","yzNum");
+        Column<String> yzNumColumn = new Column<>("硬座", "yzNum");
 
-        Column<String> zeNumColumn = new Column<>("二等座","zeNum");
+        Column<String> zeNumColumn = new Column<>("二等座", "zeNum");
 
-        Column<String> zyNumColumn = new Column<>("一等座","zyNum");
+        Column<String> zyNumColumn = new Column<>("一等座", "zyNum");
 
-        Column<String> swzNumColumn = new Column<>("商务座","swzNum");
+        Column<String> swzNumColumn = new Column<>("商务座", "swzNum");
 
-        Column<String> srrbNumColumn = new Column<>("动卧","srrbNum");
+        Column<String> srrbNumColumn = new Column<>("动卧", "srrbNum");
 
-        Column<String> isSupportCreditsColumn = new Column<>("支持积分兑换","isSupportCredits");
+        Column<String> isSupportCreditsColumn = new Column<>("支持积分兑换", "isSupportCredits");
 
-        Column<String> isSupportCardColumn = new Column<>("支持身份证","isSupportCard");
+        Column<String> isSupportCardColumn = new Column<>("支持身份证", "isSupportCard");
 
-        Column<String> startStationNameColumn = new Column<>("始发","startStationName");
+        Column<String> startStationNameColumn = new Column<>("始发", "startStationName");
 
-        Column<String> endStationNameColumn = new Column<>("终到","endStationName");
+        Column<String> endStationNameColumn = new Column<>("终到", "endStationName");
 
-        TableData<QueryLeftNewDTO> tableData = new TableData<>("余票信息",queryLeftNewDTOList,stationTrainCodeColumn,fromStationNameColumn,startTimeColumn,toStationNameColumn,arriveTimeColumn,lishiColumn,zeNumColumn,zyNumColumn,swzNumColumn,grNumColumn,rwNumColumn,srrbNumColumn,ywNumColumn,rzNumColumn,yzNumColumn,wzNumColumn,qtNumColumn,tzNumColumn,isSupportCardColumn,isSupportCreditsColumn,startStationNameColumn,endStationNameColumn);
+        TableData<QueryLeftNewDTO> tableData = new TableData<>("余票信息", queryLeftNewDTOList, stationTrainCodeColumn, fromStationNameColumn, startTimeColumn, toStationNameColumn, arriveTimeColumn, lishiColumn, zeNumColumn, zyNumColumn, swzNumColumn, grNumColumn, rwNumColumn, srrbNumColumn, ywNumColumn, rzNumColumn, yzNumColumn, wzNumColumn, qtNumColumn, tzNumColumn, isSupportCardColumn, isSupportCreditsColumn, startStationNameColumn, endStationNameColumn);
         tableData.setOnRowClickListener(new TableData.OnRowClickListener<QueryLeftNewDTO>() {
             @Override
             public void onClick(Column column, QueryLeftNewDTO queryLeftNewDTO, int col, int row) {
-                if(queryLeftNewDTO.getSecretStr().equals("null") || queryLeftNewDTO.getSecretStr().equals("")){
-                    Toast.makeText(leftTicketActivity.this,"该车次无法订票",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(leftTicketActivity.this,"开始订车次:"+queryLeftNewDTO.getStationTrainCode(),Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getActivity(),submitOrderActivity.class);
-                    intent.putExtra("queryLeftNewDTO",queryLeftNewDTO);
-                    intent.putExtra("secretStr",queryLeftNewDTO.getSecretStr());
-                    intent.putExtra("trainDateString",trainDateString);
-                    intent.putExtra("backTrainDateString",trainDateString);
-                    intent.putExtra("tourFlag","dc");
-                    intent.putExtra("purposeCodes",purposeCodes);
-                    intent.putExtra("fromStationName",fromStationName);
-                    intent.putExtra("toStationName",toStationName);
+                if (queryLeftNewDTO.getSecretStr().equals("null") || queryLeftNewDTO.getSecretStr().equals("")) {
+                    Toast.makeText(leftTicketActivity.this, "该车次无法订票", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(leftTicketActivity.this, "开始订车次:" + queryLeftNewDTO.getStationTrainCode(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), submitOrderActivity.class);
+                    intent.putExtra("queryLeftNewDTO", queryLeftNewDTO);
+                    intent.putExtra("secretStr", queryLeftNewDTO.getSecretStr());
+                    intent.putExtra("trainDateString", trainDateString);
+                    intent.putExtra("backTrainDateString", trainDateString);
+                    intent.putExtra("tourFlag", "dc");
+                    intent.putExtra("purposeCodes", purposeCodes);
+                    intent.putExtra("fromStationName", fromStationName);
+                    intent.putExtra("toStationName", toStationName);
                     startActivity(intent);
                 }
             }
         });
 
         table.setTableData(tableData);
-        table.setZoom(true,0.5f,2);
+        table.setZoom(true, 0.5f, 2);
     }
 
-    void leftTicketJSONTOClass(String leftTicketJSONString){
+    void leftTicketJSONTOClass(String leftTicketJSONString) {
         JsonElement je = new JsonParser().parse(leftTicketJSONString);
         String resultString = je.getAsJsonObject().get("data").getAsJsonObject().get("result").toString();
-        resultString = resultString.substring(1,resultString.length()-1);
+        resultString = resultString.substring(1, resultString.length() - 1);
         String[] result = resultString.split(",");
-        for(String s :result){
-            s = s.substring(1,s.length()-1);
+        for (String s : result) {
+            s = s.substring(1, s.length() - 1);
             String[] ticket = s.split("\\|");
             QueryLeftNewDTO queryLeftNewDTO = new QueryLeftNewDTO();
             queryLeftNewDTO.setSecretStr(ticket[0]);
@@ -171,7 +171,7 @@ public class leftTicketActivity extends AppCompatActivity {
         }
     }
 
-    private Activity getActivity(){
+    private Activity getActivity() {
         return this;
     }
 }

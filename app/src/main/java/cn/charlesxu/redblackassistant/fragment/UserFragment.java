@@ -36,8 +36,8 @@ public class UserFragment extends BaseFragment {
     private OkHttpClient client = MyApplication.client;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.user_fragment,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.user_fragment, container, false);
         userTextView = view.findViewById(R.id.user_textView);
         userTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +58,7 @@ public class UserFragment extends BaseFragment {
         return view;
     }
 
-    public void checkUser(){
+    public void checkUser() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -75,9 +75,9 @@ public class UserFragment extends BaseFragment {
                     System.out.println("CheckUser: " + responseDataString);
                     JsonElement je = new JsonParser().parse(responseDataString);
                     String resultString = je.getAsJsonObject().get("data").getAsJsonObject().get("flag").toString();
-                    if(resultString.equals("false")) {
+                    if (resultString.equals("false")) {
                         initLoginActivity();
-                    }else {
+                    } else {
                         getUserName();
                     }
                 } catch (IOException e) {
@@ -87,7 +87,7 @@ public class UserFragment extends BaseFragment {
         }).start();
     }
 
-    public void getUserName(){
+    public void getUserName() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -109,9 +109,9 @@ public class UserFragment extends BaseFragment {
                     Runnable runnable = new Runnable() {
                         @Override
                         public void run() {
-                            if(username.equals("")){
+                            if (username.equals("")) {
                                 userTextView.setText("用户未登录");
-                            }else {
+                            } else {
                                 userTextView.setText(username);
                             }
 
@@ -125,12 +125,12 @@ public class UserFragment extends BaseFragment {
         }).start();
     }
 
-    public void initLoginActivity(){
+    public void initLoginActivity() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
     }
 
-    public void initQueryOrderActivity(){
+    public void initQueryOrderActivity() {
         Intent intent = new Intent(getActivity(), QueryOrderActivity.class);
         startActivity(intent);
     }

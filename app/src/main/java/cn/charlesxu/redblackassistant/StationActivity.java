@@ -29,14 +29,14 @@ public class StationActivity extends AppCompatActivity {
         initRecentStation();
 
         //Init popularStationRecyclerView
-        RecyclerView popularStationRecyclerView = (RecyclerView)findViewById(R.id.popularStation_recyclerView);
+        RecyclerView popularStationRecyclerView = (RecyclerView) findViewById(R.id.popularStation_recyclerView);
         popularStationRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        popularStationRecyclerView.setAdapter(new StationAdapter(popularStationList,this));
+        popularStationRecyclerView.setAdapter(new StationAdapter(popularStationList, this));
 
         //Init recentStationRecyclerView
         RecyclerView recentStationRecyclerView = findViewById(R.id.recentStation_recyclerView);
-        recentStationRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
-        final StationAdapter recentStationAdapter = new StationAdapter(recentStationList,this);
+        recentStationRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        final StationAdapter recentStationAdapter = new StationAdapter(recentStationList, this);
         recentStationRecyclerView.setAdapter(recentStationAdapter);
 
         SearchView searchView = findViewById(R.id.station_searchView);
@@ -50,7 +50,7 @@ public class StationActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 recentStationTextView.setText("查询结果");
                 List<Station> resultStationList = new ArrayList<>();
-                resultStationList = DataSupport.where("stationName like ? or pinYinInitialism like ?",query + "%",query + "%").find(Station.class);
+                resultStationList = DataSupport.where("stationName like ? or pinYinInitialism like ?", query + "%", query + "%").find(Station.class);
                 recentStationList.clear();
                 recentStationList.addAll(resultStationList);
                 recentStationAdapter.notifyDataSetChanged();
@@ -59,15 +59,15 @@ public class StationActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String query) {
-                System.out.println("查询"+query);
-                if(query.isEmpty()){
+                System.out.println("查询" + query);
+                if (query.isEmpty()) {
                     recentStationTextView.setText("最近查询车站");
                     initRecentStation();
                     recentStationAdapter.notifyDataSetChanged();
-                }else {
+                } else {
                     recentStationTextView.setText("查询结果");
                     List<Station> resultStationList = new ArrayList<>();
-                    resultStationList = DataSupport.where("stationName like ? or pinYinInitialism like ?",query + "%",query + "%").find(Station.class);
+                    resultStationList = DataSupport.where("stationName like ? or pinYinInitialism like ?", query + "%", query + "%").find(Station.class);
                     recentStationList.clear();
                     recentStationList.addAll(resultStationList);
                     recentStationAdapter.notifyDataSetChanged();
@@ -78,22 +78,21 @@ public class StationActivity extends AppCompatActivity {
 
     }
 
-    void initPopularStation(){
+    void initPopularStation() {
         //设置热门站点
-        String[] popularStationName = {"北京","上海","广州","天津","重庆","成都","长沙","哈尔滨","杭州"};
+        String[] popularStationName = {"北京", "上海", "广州", "天津", "重庆", "成都", "长沙", "哈尔滨", "杭州"};
         String queryString = "stationName = ";
-        for(int i = 0; i < popularStationName.length; i++){
-            if (i == 0){
+        for (int i = 0; i < popularStationName.length; i++) {
+            if (i == 0) {
                 queryString += "'" + popularStationName[i] + "'";
-            }
-            else {
+            } else {
                 queryString += " or stationName = " + "'" + popularStationName[i] + "'";
             }
         }
         popularStationList = DataSupport.where(queryString).find(Station.class);
     }
 
-    void initRecentStation(){
+    void initRecentStation() {
         recentStationList.clear();
         recentStationList.addAll(DataSupport.order("lastUseDateTime desc").limit(6).find(Station.class));
     }

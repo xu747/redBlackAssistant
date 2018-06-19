@@ -1,7 +1,7 @@
 package cn.charlesxu.redblackassistant.db;
-public class MyPoint
-{
- private int x;
+
+public class MyPoint {
+    private int x;
     private int y;
 
     public int getX() {
@@ -19,8 +19,9 @@ public class MyPoint
     public void setY(int y) {
         this.y = y;
     }
+
     public String toString() {
-        System.out.println("("+ x +","+ y + ")");
+        System.out.println("(" + x + "," + y + ")");
         return null;
     }
 }

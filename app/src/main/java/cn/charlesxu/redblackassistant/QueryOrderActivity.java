@@ -2,9 +2,9 @@ package cn.charlesxu.redblackassistant;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
@@ -16,22 +16,18 @@ import com.philliphsu.bottomsheetpickers.date.DatePickerDialog;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.List;
 
-import cn.charlesxu.redblackassistant.fragment.MainQueryFragment;
-import cn.charlesxu.redblackassistant.model.PassengerDTO;
-import cn.charlesxu.redblackassistant.model.QueryOrderData;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class QueryOrderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-    private RadioButton noCompleteOrderRadioButton,completeOrderRadioButton,queryByOrderDateRadioButton,queryBySetOffDateRadioButton,noSetOffRadioButton,historyOrderRadioButton;
-    private TextView startDateTextView,endDateTextView;
+    private RadioButton noCompleteOrderRadioButton, completeOrderRadioButton, queryByOrderDateRadioButton, queryBySetOffDateRadioButton, noSetOffRadioButton, historyOrderRadioButton;
+    private TextView startDateTextView, endDateTextView;
     private Button queryButton;
 
-    private String startDateString,endDateString;
+    private String startDateString, endDateString;
 
     private OkHttpClient client = MyApplication.client;
 
@@ -57,7 +53,7 @@ public class QueryOrderActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onClick(View v) {
                 DialogFragment dialogFragment = createDialog();
-                dialogFragment.show(getSupportFragmentManager(),"startDateDialog");
+                dialogFragment.show(getSupportFragmentManager(), "startDateDialog");
             }
         });
 
@@ -65,7 +61,7 @@ public class QueryOrderActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onClick(View v) {
                 DialogFragment dialogFragment = createDialog();
-                dialogFragment.show(getSupportFragmentManager(),"endDateDialog");
+                dialogFragment.show(getSupportFragmentManager(), "endDateDialog");
             }
         });
 
@@ -75,29 +71,29 @@ public class QueryOrderActivity extends AppCompatActivity implements DatePickerD
 
                 //查询已完成 | 未完成订单
                 boolean isComplete = false;
-                if(completeOrderRadioButton.isChecked()){
+                if (completeOrderRadioButton.isChecked()) {
                     isComplete = true;
-                }else if(noCompleteOrderRadioButton.isChecked()){
+                } else if (noCompleteOrderRadioButton.isChecked()) {
                     isComplete = false;
                 }
 
                 //查询未出行订单为G，查询历史订单为H
                 String queryWhere = "G";
-                if(historyOrderRadioButton.isChecked()){
+                if (historyOrderRadioButton.isChecked()) {
                     queryWhere = "H";
-                }else if(noSetOffRadioButton.isChecked()){
+                } else if (noSetOffRadioButton.isChecked()) {
                     queryWhere = "G";
                 }
 
                 //按订票日期查询为1，按乘车日期查询为2
                 int queryType = 1;
-                if (queryBySetOffDateRadioButton.isChecked()){
+                if (queryBySetOffDateRadioButton.isChecked()) {
                     queryType = 2;
-                }else if (queryByOrderDateRadioButton.isChecked()){
+                } else if (queryByOrderDateRadioButton.isChecked()) {
                     queryType = 1;
                 }
 
-                queryOrder(isComplete,queryType,queryWhere,startDateString,endDateString);
+                queryOrder(isComplete, queryType, queryWhere, startDateString, endDateString);
 
             }
         });
@@ -105,7 +101,7 @@ public class QueryOrderActivity extends AppCompatActivity implements DatePickerD
     }
 
 
-    public void queryOrder(final boolean isComplete, final int queryType, final String queryWhere, final String queryStartDate, final String queryEndDate){
+    public void queryOrder(final boolean isComplete, final int queryType, final String queryWhere, final String queryStartDate, final String queryEndDate) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -125,32 +121,32 @@ public class QueryOrderActivity extends AppCompatActivity implements DatePickerD
                 Request request = null;
 
                 //构造请求体
-                if(!isComplete){
+                if (!isComplete) {
                     body = new FormBody.Builder()
-                            .add("_json_att",_json_att)
+                            .add("_json_att", _json_att)
                             .build();
 
                     request = new Request.Builder()
-                            .addHeader("Host","kyfw.12306.cn")
-                            .addHeader("Referer","https://kyfw.12306.cn/otn/queryOrder/init")
+                            .addHeader("Host", "kyfw.12306.cn")
+                            .addHeader("Referer", "https://kyfw.12306.cn/otn/queryOrder/init")
                             .post(body)
                             .url(noCompleteOrderUrl)
                             .build();
-                }else {
+                } else {
                     body = new FormBody.Builder()
-                            .add("come_from_flag",come_from_flag)
-                            .add("pageIndex",String.valueOf(pageIndex))
+                            .add("come_from_flag", come_from_flag)
+                            .add("pageIndex", String.valueOf(pageIndex))
                             .add("pageSize", String.valueOf(pageSize))
-                            .add("query_where",queryWhere)
+                            .add("query_where", queryWhere)
                             .add("queryStartDate", queryStartDate)
-                            .add("queryEndDate",queryEndDate)
-                            .add("queryType",String.valueOf(queryType))
+                            .add("queryEndDate", queryEndDate)
+                            .add("queryType", String.valueOf(queryType))
                             .add("sequeue_train_name", sequeue_train_name)
                             .build();
 
                     request = new Request.Builder()
-                            .addHeader("Host","kyfw.12306.cn")
-                            .addHeader("Referer","https://kyfw.12306.cn/otn/queryOrder/init")
+                            .addHeader("Host", "kyfw.12306.cn")
+                            .addHeader("Referer", "https://kyfw.12306.cn/otn/queryOrder/init")
                             .post(body)
                             .url(completeOrderUrl)
                             .build();
@@ -161,8 +157,8 @@ public class QueryOrderActivity extends AppCompatActivity implements DatePickerD
                     String responseDataString = response.body().string();
                     System.out.println("订单查询结果:" + responseDataString);
 
-                    Intent intent = new Intent(getActivity(),QueryOrderResultActivity.class);
-                    intent.putExtra("resultJSONString",responseDataString);
+                    Intent intent = new Intent(getActivity(), QueryOrderResultActivity.class);
+                    intent.putExtra("resultJSONString", responseDataString);
                     startActivity(intent);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -178,12 +174,12 @@ public class QueryOrderActivity extends AppCompatActivity implements DatePickerD
         cal.set(Calendar.MONTH, monthOfYear);
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-        if(dialog.getTag().equals("startDateDialog")){
+        if (dialog.getTag().equals("startDateDialog")) {
             startDateTextView.setText("乘车日期: " + DateFormat.getDateFormat(this).format(cal.getTime()));
-            startDateString = processDate(year,monthOfYear + 1, dayOfMonth);
-        }else {
+            startDateString = processDate(year, monthOfYear + 1, dayOfMonth);
+        } else {
             endDateTextView.setText("乘车日期: " + DateFormat.getDateFormat(this).format(cal.getTime()));
-            endDateString = processDate(year,monthOfYear + 1, dayOfMonth);
+            endDateString = processDate(year, monthOfYear + 1, dayOfMonth);
         }
 
 
@@ -211,33 +207,33 @@ public class QueryOrderActivity extends AppCompatActivity implements DatePickerD
         dialog.setThemeDark(themeDark);
         if (custom || customDark) {
             dialog.setAccentColor(0xFFFF4081);
-            dialog.setBackgroundColor(custom? 0xFF90CAF9 : 0xFF2196F3);
-            dialog.setHeaderColor(custom? 0xFF90CAF9 : 0xFF2196F3);
+            dialog.setBackgroundColor(custom ? 0xFF90CAF9 : 0xFF2196F3);
+            dialog.setHeaderColor(custom ? 0xFF90CAF9 : 0xFF2196F3);
             dialog.setHeaderTextDark(custom);
         }
 
         return dialog;
     }
 
-    private String processDate(int year,int month,int day){
+    private String processDate(int year, int month, int day) {
         String dateString = "" + year;
 
-        if(month < 10){
+        if (month < 10) {
             dateString = dateString + "-" + "0" + month;
-        }else {
+        } else {
             dateString = dateString + "-" + month;
         }
 
-        if(day < 10){
+        if (day < 10) {
             dateString = dateString + "-" + "0" + day;
-        }else {
+        } else {
             dateString = dateString + "-" + day;
         }
 
         return dateString;
     }
 
-    private Activity getActivity(){
+    private Activity getActivity() {
         return this;
     }
 

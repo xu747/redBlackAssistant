@@ -42,10 +42,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
+
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,CaptchaFragment.CallBackValue {
+public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, CaptchaFragment.CallBackValue {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -123,16 +124,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,C
         System.out.println("Login Activity: " + strValue);
         returnStringFromCaptchaFragment = strValue;
         //Check returnString
-        if(!returnStringFromCaptchaFragment.equals("\"4\"")) {
+        if (!returnStringFromCaptchaFragment.equals("\"4\"")) {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(),"验证码错误",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "验证码错误", Toast.LENGTH_SHORT).show();
                     checkCaptcha();
                 }
             };
             handler.post(runnable);
-        }else {
+        } else {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -143,7 +144,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,C
         }
     }
 
-    private void checkCaptcha(){
+    private void checkCaptcha() {
         //Check Captcha
         //1.Init returnString
         returnStringFromCaptchaFragment = "5";
@@ -151,7 +152,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,C
         //this.onPause();
         this.getFragmentManager()
                 .beginTransaction()
-                .add(captchaFragment,"dialog")
+                .add(captchaFragment, "dialog")
                 .commit();
         this.getFragmentManager().executePendingTransactions();
         //captchaFragment.show(getFragmentManager(),"dialog");
@@ -374,14 +375,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,C
                 //发送登陆信息
                 String loginUrl = "https://kyfw.12306.cn/passport/web/login";
                 FormBody body = new FormBody.Builder()
-                        .add("username",mEmail)
-                        .add("password",mPassword)
+                        .add("username", mEmail)
+                        .add("password", mPassword)
                         .add("appid", "otn")
                         .build();
 
                 Request request = new Request.Builder()
-                        .addHeader("Host","kyfw.12306.cn")
-                        .addHeader("Referer","https://kyfw.12306.cn/otn/login/init")
+                        .addHeader("Host", "kyfw.12306.cn")
+                        .addHeader("Referer", "https://kyfw.12306.cn/otn/login/init")
                         .post(body)
                         .url(loginUrl)
                         .build();
@@ -391,7 +392,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,C
                 System.out.println(responseDataString);
                 JsonElement je = new JsonParser().parse(responseDataString);
                 String resultCodeString = je.getAsJsonObject().get("result_code").toString();
-                if(Integer.valueOf(resultCodeString) != 0){
+                if (Integer.valueOf(resultCodeString) != 0) {
                     return false;
                 }
 
@@ -401,8 +402,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,C
                         .build();
 
                 request = new Request.Builder()
-                        .addHeader("Host","kyfw.12306.cn")
-                        .addHeader("Referer","https://kyfw.12306.cn/otn/passport?redirect=/otn/login/userLogin")
+                        .addHeader("Host", "kyfw.12306.cn")
+                        .addHeader("Referer", "https://kyfw.12306.cn/otn/passport?redirect=/otn/login/userLogin")
                         .post(body)
                         .url(uamtkUrl)
                         .build();
@@ -413,20 +414,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>,C
                 je = new JsonParser().parse(responseDataString);
                 resultCodeString = je.getAsJsonObject().get("result_code").toString();
                 System.out.println(resultCodeString);
-                if(Integer.valueOf(resultCodeString) != 0){
+                if (Integer.valueOf(resultCodeString) != 0) {
                     return false;
                 }
 
                 String newapptk = je.getAsJsonObject().get("newapptk").toString();
-                newapptk = newapptk.substring(1,newapptk.length()-1);
+                newapptk = newapptk.substring(1, newapptk.length() - 1);
                 String newapptkUrl = "https://kyfw.12306.cn/otn/uamauthclient";
                 body = new FormBody.Builder()
                         .add("tk", newapptk)
                         .build();
 
                 request = new Request.Builder()
-                        .addHeader("Host","kyfw.12306.cn")
-                        .addHeader("Referer","https://kyfw.12306.cn/otn/passport?redirect=/otn/login/userLogin")
+                        .addHeader("Host", "kyfw.12306.cn")
+                        .addHeader("Referer", "https://kyfw.12306.cn/otn/passport?redirect=/otn/login/userLogin")
                         .post(body)
                         .url(newapptkUrl)
                         .build();

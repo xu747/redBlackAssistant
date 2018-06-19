@@ -11,7 +11,7 @@ import cn.charlesxu.redblackassistant.R;
 public class TrainFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.train_fragment,container,false);
+        View view = inflater.inflate(R.layout.train_fragment, container, false);
         return view;
     }
 }

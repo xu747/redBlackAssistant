@@ -1,6 +1,5 @@
 package cn.charlesxu.redblackassistant.model;
 
-import java.util.Date;
 import java.util.List;
 
 public class OrderDTOData {

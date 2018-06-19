@@ -1,8 +1,5 @@
 package cn.charlesxu.redblackassistant.model;
 
-import com.bin.david.form.annotation.SmartColumn;
-import com.bin.david.form.annotation.SmartTable;
-
 import java.io.Serializable;
 
 public class QueryLeftNewDTO implements Serializable {

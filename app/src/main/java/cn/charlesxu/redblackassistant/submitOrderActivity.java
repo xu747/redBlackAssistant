@@ -1,9 +1,9 @@
 package cn.charlesxu.redblackassistant;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,12 +13,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import org.apache.commons.beanutils.BeanMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,7 +25,6 @@ import org.mozilla.javascript.NativeArray;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -62,14 +59,14 @@ public class submitOrderActivity extends AppCompatActivity {
     private PassengerDTOsData passengerDTOsData;
     private QueryLeftNewDTO queryLeftNewDTO;
     private Gson gson = new Gson();
-    private TextView titleTextView,trainDateTextView,stationTrainCodeTextView,stationAndTimeTextView;
+    private TextView titleTextView, trainDateTextView, stationTrainCodeTextView, stationAndTimeTextView;
     private Button bookTicketButton;
     private LinearLayout passengerLinearLayout;
     private RadioGroup ticketTypeRadioGroup;
     private List<CheckBox> passengerCheckBoxList = new LinkedList<>();
     private List<Passenger> passengerList = new LinkedList<>();
     private List<RadioButton> ticketTypeRadioButtonList = new LinkedList<>();
-    private HashMap<String,String> seatTypeCodesMap = new LinkedHashMap<>();
+    private HashMap<String, String> seatTypeCodesMap = new LinkedHashMap<>();
     private String waitTime = "";
 
 
@@ -110,7 +107,7 @@ public class submitOrderActivity extends AppCompatActivity {
 
         trainDateTextView.setText("出发日期：" + trainDateString);
         stationTrainCodeTextView.setText("车次：" + queryLeftNewDTO.getStationTrainCode());
-        stationAndTimeTextView.setText(fromStationName + "站（" + queryLeftNewDTO.getStartTime() + "开）--> " + toStationName+ "站（" + queryLeftNewDTO.getArriveTime() + "到）");
+        stationAndTimeTextView.setText(fromStationName + "站（" + queryLeftNewDTO.getStartTime() + "开）--> " + toStationName + "站（" + queryLeftNewDTO.getArriveTime() + "到）");
 
         addTicketTypeRadioButton();
         submitOrderRequest();
@@ -244,7 +241,7 @@ public class submitOrderActivity extends AppCompatActivity {
                 String getPassengerDTOsUrl = "https://kyfw.12306.cn/otn/confirmPassenger/getPassengerDTOs";
                 body = new FormBody.Builder()
                         .add("_json_att", "")
-                        .add("REPEAT_SUBMIT_TOKEN",globalRepeatSubmitTokenObj.toString())
+                        .add("REPEAT_SUBMIT_TOKEN", globalRepeatSubmitTokenObj.toString())
                         .build();
 
                 request = new Request.Builder()
@@ -271,11 +268,11 @@ public class submitOrderActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                passengerDTOsData = gson.fromJson(je.getAsJsonObject().get("data").toString(),PassengerDTOsData.class);
+                passengerDTOsData = gson.fromJson(je.getAsJsonObject().get("data").toString(), PassengerDTOsData.class);
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-                        for(int i = 0; i < passengerDTOsData.getNormal_passengers().size(); i++){
+                        for (int i = 0; i < passengerDTOsData.getNormal_passengers().size(); i++) {
                             CheckBox checkBox = new CheckBox(getActivity());
                             checkBox.setText(passengerDTOsData.getNormal_passengers().get(i).getPassenger_name());
                             passengerCheckBoxList.add(checkBox);
@@ -283,13 +280,13 @@ public class submitOrderActivity extends AppCompatActivity {
                             passengerLinearLayout.addView(checkBox);
                         }
 
-                        Map<?,?> map = (Map<?,?>)ticketInfoForPassengerForm;
+                        Map<?, ?> map = (Map<?, ?>) ticketInfoForPassengerForm;
                         //getSeatTypeCodes
-                        Map<?,?> limitBuySeatTicketDTO = (Map<?, ?>) map.get("limitBuySeatTicketDTO");
+                        Map<?, ?> limitBuySeatTicketDTO = (Map<?, ?>) map.get("limitBuySeatTicketDTO");
                         NativeArray seatTypeCodes = (NativeArray) limitBuySeatTicketDTO.get("seat_type_codes");
-                        for(Object object : seatTypeCodes){
-                            Map<?,?> temp = (Map<?,?>) object;
-                            seatTypeCodesMap.put(temp.get("value").toString(),temp.get("id").toString());
+                        for (Object object : seatTypeCodes) {
+                            Map<?, ?> temp = (Map<?, ?>) object;
+                            seatTypeCodesMap.put(temp.get("value").toString(), temp.get("id").toString());
                         }
 
                     }
@@ -299,54 +296,54 @@ public class submitOrderActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void addTicketTypeRadioButton(){
-        HashMap <String,String> hashMap = new HashMap<>();
+    private void addTicketTypeRadioButton() {
+        HashMap<String, String> hashMap = new HashMap<>();
         //if(!queryLeftNewDTO.getGrNum().equals("")){
-            hashMap.put("高软",queryLeftNewDTO.getGrNum());
+        hashMap.put("高软", queryLeftNewDTO.getGrNum());
         //}
         //if(!queryLeftNewDTO.getQtNum().equals("")){
-            hashMap.put("其他",queryLeftNewDTO.getQtNum());
+        hashMap.put("其他", queryLeftNewDTO.getQtNum());
         //}
         //if(!queryLeftNewDTO.getRwNum().equals("")){
-            hashMap.put("软卧",queryLeftNewDTO.getGrNum());
+        hashMap.put("软卧", queryLeftNewDTO.getGrNum());
         //}
         //if(!queryLeftNewDTO.getRzNum().equals("")){
-            hashMap.put("软座",queryLeftNewDTO.getRzNum());
+        hashMap.put("软座", queryLeftNewDTO.getRzNum());
         //}
         //if(!queryLeftNewDTO.getTzNum().equals("")){
-            hashMap.put("特等座",queryLeftNewDTO.getTzNum());
+        hashMap.put("特等座", queryLeftNewDTO.getTzNum());
         //}
         //if(!queryLeftNewDTO.getWzNum().equals("")){
-            hashMap.put("无座",queryLeftNewDTO.getWzNum());
+        hashMap.put("无座", queryLeftNewDTO.getWzNum());
         //}
         //if(!queryLeftNewDTO.getYwNum().equals("")){
-            hashMap.put("硬卧",queryLeftNewDTO.getYwNum());
+        hashMap.put("硬卧", queryLeftNewDTO.getYwNum());
         //}
         //if(!queryLeftNewDTO.getYzNum().equals("")){
-            hashMap.put("硬座",queryLeftNewDTO.getYzNum());
+        hashMap.put("硬座", queryLeftNewDTO.getYzNum());
         //}
         //if(!queryLeftNewDTO.getZeNum().equals("")){
-            hashMap.put("二等座",queryLeftNewDTO.getZeNum());
+        hashMap.put("二等座", queryLeftNewDTO.getZeNum());
         //}
         //if(!queryLeftNewDTO.getZyNum().equals("")){
-            hashMap.put("一等座",queryLeftNewDTO.getZyNum());
+        hashMap.put("一等座", queryLeftNewDTO.getZyNum());
         //}
         //if(!queryLeftNewDTO.getSwzNum().equals("")){
-            hashMap.put("商务座",queryLeftNewDTO.getSwzNum());
+        hashMap.put("商务座", queryLeftNewDTO.getSwzNum());
         //}
         //if(!queryLeftNewDTO.getSrrbNum().equals("")){
-            hashMap.put("动卧",queryLeftNewDTO.getSrrbNum());
+        hashMap.put("动卧", queryLeftNewDTO.getSrrbNum());
         //}
 
-        for(String key : hashMap.keySet()){
+        for (String key : hashMap.keySet()) {
             RadioButton radioButton = new RadioButton(getActivity());
-            if(hashMap.get(key).equals("有")){
+            if (hashMap.get(key).equals("有")) {
                 radioButton.setText(key + "(" + hashMap.get(key) + "票)");
                 ticketTypeRadioButtonList.add(radioButton);
                 ticketTypeRadioGroup.addView(radioButton);
-            }else if(hashMap.get(key).equals("") || hashMap.get(key).equals("无")){
+            } else if (hashMap.get(key).equals("") || hashMap.get(key).equals("无")) {
 
-            }else {
+            } else {
                 radioButton.setText(key + "(" + hashMap.get(key) + "张)");
                 ticketTypeRadioButtonList.add(radioButton);
                 ticketTypeRadioGroup.addView(radioButton);
@@ -356,7 +353,7 @@ public class submitOrderActivity extends AppCompatActivity {
 
     }
 
-    private void submitOrder(){
+    private void submitOrder() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -366,18 +363,18 @@ public class submitOrderActivity extends AppCompatActivity {
                 String oldPassengerString = "";
                 String seatTypeCodeString = null;
 
-                for(int i = 0; i < passengerCheckBoxList.size(); i++){
+                for (int i = 0; i < passengerCheckBoxList.size(); i++) {
                     CheckBox checkBox = passengerCheckBoxList.get(i);
-                    if(checkBox.isChecked()){
+                    if (checkBox.isChecked()) {
                         Passenger passenger = passengerList.get(i);
 
-                        if(!passengerTicketString.equals("")){
+                        if (!passengerTicketString.equals("")) {
                             passengerTicketString += "_";
                         }
 
-                        for(RadioButton radioButton: ticketTypeRadioButtonList){
-                            if(radioButton.isChecked()){
-                                String seatTypeNameString = radioButton.getText().toString().substring(0,radioButton.getText().toString().indexOf("("));
+                        for (RadioButton radioButton : ticketTypeRadioButtonList) {
+                            if (radioButton.isChecked()) {
+                                String seatTypeNameString = radioButton.getText().toString().substring(0, radioButton.getText().toString().indexOf("("));
                                 passengerTicketString += seatTypeCodesMap.get(seatTypeNameString) + ",";
                                 seatTypeCodeString = seatTypeCodesMap.get(seatTypeNameString);
                                 break;
@@ -385,24 +382,23 @@ public class submitOrderActivity extends AppCompatActivity {
                         }
                         passengerTicketString += "0,1,";
 
-                        passengerTicketString += passenger.getPassenger_name() + "," + passenger.getPassenger_id_type_code() + "," +  passenger.getPassenger_id_no() + "," + passenger.getMobile_no() + "," + "N";
-                        oldPassengerString += passenger.getPassenger_name() + "," + passenger.getPassenger_id_type_code() + "," +  passenger.getPassenger_id_no() + "," + "1" + "_";
+                        passengerTicketString += passenger.getPassenger_name() + "," + passenger.getPassenger_id_type_code() + "," + passenger.getPassenger_id_no() + "," + passenger.getMobile_no() + "," + "N";
+                        oldPassengerString += passenger.getPassenger_name() + "," + passenger.getPassenger_id_type_code() + "," + passenger.getPassenger_id_no() + "," + "1" + "_";
 
                     }
                 }
-
 
 
                 FormBody body = new FormBody.Builder()
                         .add("cancel_flag", "2")
                         .add("bed_level_order_num", "000000000000000000000000000000")
                         .add("passengerTicketStr", passengerTicketString)
-                        .add("oldPassengerStr",oldPassengerString)
+                        .add("oldPassengerStr", oldPassengerString)
                         .add("tour_flag", "dc")
                         .add("randCode", "")
                         .add("whatsSelect", "1")
                         .add("_json_att", "")
-                        .add("REPEAT_SUBMIT_TOKEN",globalRepeatSubmitToken)
+                        .add("REPEAT_SUBMIT_TOKEN", globalRepeatSubmitToken)
                         .build();
 
                 Request request = new Request.Builder()
@@ -451,11 +447,11 @@ public class submitOrderActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if(trainDate == null || trainDateFormatString == null){
+                if (trainDate == null || trainDateFormatString == null) {
                     return;
                 }
 
-                Map<?,?> map = (Map<?,?>)ticketInfoForPassengerForm;
+                Map<?, ?> map = (Map<?, ?>) ticketInfoForPassengerForm;
                 String leftTicketString = (String) map.get("leftTicketStr");
                 String trainLocationString = (String) map.get("train_location");
                 String purposeCodesString = (String) map.get("purpose_codes");
@@ -466,7 +462,6 @@ public class submitOrderActivity extends AppCompatActivity {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-
 
 
 //                train_date: Thu Jun 28 2018 00:00:00 GMT+0800 (China Standard Time)
@@ -485,14 +480,14 @@ public class submitOrderActivity extends AppCompatActivity {
                         .add("train_date", trainDateFormatString)
                         .add("train_no", queryLeftNewDTO.getTrainNo())
                         .add("stationTrainCode", queryLeftNewDTO.getStationTrainCode())
-                        .add("seatType",seatTypeCodeString)
+                        .add("seatType", seatTypeCodeString)
                         .add("fromStationTelecode", queryLeftNewDTO.getFromStationTelecode())
                         .add("toStationTelecode", queryLeftNewDTO.getToStationTelecode())
-                        .add("leftTicket",leftTicketString)
-                        .add("purpose_codes",purposeCodesString)
-                        .add("train_location",trainLocationString)
+                        .add("leftTicket", leftTicketString)
+                        .add("purpose_codes", purposeCodesString)
+                        .add("train_location", trainLocationString)
                         .add("_json_att", "")
-                        .add("REPEAT_SUBMIT_TOKEN",globalRepeatSubmitToken)
+                        .add("REPEAT_SUBMIT_TOKEN", globalRepeatSubmitToken)
                         .build();
 
                 request = new Request.Builder()
@@ -529,26 +524,26 @@ public class submitOrderActivity extends AppCompatActivity {
                 String confirmSingleForQueueUrl = "https://kyfw.12306.cn/otn/confirmPassenger/confirmSingleForQueue";
                 body = new FormBody.Builder()
                         .add("passengerTicketStr", passengerTicketString)
-                        .add("oldPassengerStr",oldPassengerString)
-                        .add("randCode","")
-                        .add("key_check_isChange",keyCheckIsChangeString)
-                        .add("purpose_codes",purposeCodesString)
-                        .add("leftTicketStr",leftTicketString)
-                        .add("train_location",trainLocationString)
-                        .add("choose_seats","")
-                        .add("seatDetailType","000")
-                        .add("whatsSelect","1")
-                        .add("roomType","00")
-                        .add("dwAll","N")
+                        .add("oldPassengerStr", oldPassengerString)
+                        .add("randCode", "")
+                        .add("key_check_isChange", keyCheckIsChangeString)
+                        .add("purpose_codes", purposeCodesString)
+                        .add("leftTicketStr", leftTicketString)
+                        .add("train_location", trainLocationString)
+                        .add("choose_seats", "")
+                        .add("seatDetailType", "000")
+                        .add("whatsSelect", "1")
+                        .add("roomType", "00")
+                        .add("dwAll", "N")
                         .add("_json_att", "")
-                        .add("REPEAT_SUBMIT_TOKEN",globalRepeatSubmitToken)
+                        .add("REPEAT_SUBMIT_TOKEN", globalRepeatSubmitToken)
                         .build();
 
                 request = new Request.Builder()
                         .addHeader("Host", "kyfw.12306.cn")
                         .addHeader("Origin", "https://kyfw.12306.cn")
                         .addHeader("Referer", "https://kyfw.12306.cn/otn/confirmPassenger/initDc")
-                        .addHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8")
+                        .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8")
                         .post(body)
                         .url(confirmSingleForQueueUrl)
                         .build();
@@ -575,14 +570,11 @@ public class submitOrderActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(je.getAsJsonObject().get("data").getAsJsonObject().get("submitStatus").toString().equals("false")){
+                if (je.getAsJsonObject().get("data").getAsJsonObject().get("submitStatus").toString().equals("false")) {
                     String errMsg = je.getAsJsonObject().get("data").getAsJsonObject().get("errMsg").toString();
                     System.out.println("入队失败：" + errMsg);
                     return;
                 }
-
-
-
 
 
                 String queryOrderWaitTimeUrl = "https://kyfw.12306.cn/otn/confirmPassenger/queryOrderWaitTime?random=" + "&tourFlag=dc&_json_att=&REPEAT_SUBMIT_TOKEN=" + globalRepeatSubmitToken;
@@ -615,12 +607,12 @@ public class submitOrderActivity extends AppCompatActivity {
                     return;
                 }
 
-                while(je.getAsJsonObject().get("data").getAsJsonObject().get("orderId").equals("null")){
+                while (je.getAsJsonObject().get("data").getAsJsonObject().get("orderId").equals("null")) {
                     waitTime = "排队中，需要等待" + je.getAsJsonObject().get("data").getAsJsonObject().get("waitTime").toString() + "秒";
                     Runnable runnable = new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getActivity(),waitTime,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), waitTime, Toast.LENGTH_SHORT).show();
 
                         }
                     };
@@ -643,7 +635,7 @@ public class submitOrderActivity extends AppCompatActivity {
                 Runnable successRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(),orderIdString + "订单已成功下单！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), orderIdString + "订单已成功下单！", Toast.LENGTH_SHORT).show();
                     }
                 };
                 handler.post(successRunnable);
@@ -651,7 +643,7 @@ public class submitOrderActivity extends AppCompatActivity {
                 String resultOrderForDcQueueUrl = "https://kyfw.12306.cn/otn/confirmPassenger/resultOrderForDcQueue";
                 body = new FormBody.Builder()
                         .add("orderSequence_no", orderIdString)
-                        .add("REPEAT_SUBMIT_TOKEN",globalRepeatSubmitToken)
+                        .add("REPEAT_SUBMIT_TOKEN", globalRepeatSubmitToken)
                         .build();
 
                 request = new Request.Builder()
@@ -683,7 +675,7 @@ public class submitOrderActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(je.getAsJsonObject().get("data").getAsJsonObject().get("submitStatus").toString().equals("false")){
+                if (je.getAsJsonObject().get("data").getAsJsonObject().get("submitStatus").toString().equals("false")) {
                     String errMsg = je.getAsJsonObject().get("data").getAsJsonObject().get("errMsg").toString();
                     System.out.println("下单失败：" + errMsg);
                     return;
@@ -694,7 +686,7 @@ public class submitOrderActivity extends AppCompatActivity {
         }).start();
     }
 
-    private Activity getActivity(){
+    private Activity getActivity() {
         return this;
     }
 }
