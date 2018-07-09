@@ -29,7 +29,7 @@ public class StationActivity extends AppCompatActivity {
         initRecentStation();
 
         //Init popularStationRecyclerView
-        RecyclerView popularStationRecyclerView = (RecyclerView) findViewById(R.id.popularStation_recyclerView);
+        RecyclerView popularStationRecyclerView = findViewById(R.id.popularStation_recyclerView);
         popularStationRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         popularStationRecyclerView.setAdapter(new StationAdapter(popularStationList, this));
 

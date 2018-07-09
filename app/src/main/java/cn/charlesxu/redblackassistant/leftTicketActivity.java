@@ -11,6 +11,7 @@ import com.bin.david.form.data.column.Column;
 import com.bin.david.form.data.style.FontStyle;
 import com.bin.david.form.data.table.TableData;
 import com.bin.david.form.utils.DensityUtils;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -118,10 +119,12 @@ public class leftTicketActivity extends AppCompatActivity {
     void leftTicketJSONTOClass(String leftTicketJSONString) {
         JsonElement je = new JsonParser().parse(leftTicketJSONString);
         String resultString = je.getAsJsonObject().get("data").getAsJsonObject().get("result").toString();
-        resultString = resultString.substring(1, resultString.length() - 1);
-        String[] result = resultString.split(",");
-        for (String s : result) {
-            s = s.substring(1, s.length() - 1);
+        JsonArray resultJsonArray = je.getAsJsonObject().get("data").getAsJsonObject().get("result").getAsJsonArray();
+        //resultString = resultString.substring(1, resultString.length() - 1);
+        //String[] result = resultString.split(",");
+        for (JsonElement jsonElement : resultJsonArray) {
+            String s = jsonElement.getAsString();
+            //s = s.substring(1, s.length() - 1);
             String[] ticket = s.split("\\|");
             QueryLeftNewDTO queryLeftNewDTO = new QueryLeftNewDTO();
             queryLeftNewDTO.setSecretStr(ticket[0]);

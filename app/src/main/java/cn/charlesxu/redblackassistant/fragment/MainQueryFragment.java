@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.philliphsu.bottomsheetpickers.BottomSheetPickerDialog;
 import com.philliphsu.bottomsheetpickers.date.DatePickerDialog;
 
+import org.joda.time.LocalDate;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
     //private static final String TAG = "MainQueryFragment";
     private static final String TAG = "MainActivity";
 
-    private TextView mTextMessage, mText;
+    private TextView mTextMessage, mText, purchasableDateTextview;
     private CheckBox isStudentCheckBox;
     private Button fromStationButton, endStationButton, queryButton;
     private ImageButton exchageButton;
@@ -53,7 +54,7 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_query_fragment, container, false);
 
-        mText = (TextView) view.findViewById(R.id.date_textView);
+        mText = view.findViewById(R.id.date_textView);
         mText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,11 +63,13 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
             }
         });
 
-        mTextMessage = (TextView) view.findViewById(R.id.message);
+        mTextMessage = view.findViewById(R.id.message);
 
-        fromStationButton = (Button) view.findViewById(R.id.fromStation_Button);
-        endStationButton = (Button) view.findViewById(R.id.endStation_Button);
-        exchageButton = (ImageButton) view.findViewById(R.id.exchange_imageButton);
+        purchasableDateTextview = view.findViewById(R.id.purchasableDate_textview);
+
+        fromStationButton = view.findViewById(R.id.fromStation_Button);
+        endStationButton = view.findViewById(R.id.endStation_Button);
+        exchageButton = view.findViewById(R.id.exchange_imageButton);
 
         fromStationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,11 +98,7 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
         isStudentCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    isStudentTicket = true;
-                } else {
-                    isStudentTicket = false;
-                }
+                isStudentTicket = isChecked;
             }
         });
 
@@ -226,7 +225,7 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
             @Override
             public void run() {
                 OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url("https://kyfw.12306.cn/otn/resources/js/framework/station_name.js").build();
+                Request request = new Request.Builder().url("https://kyfw.12306.cn/otn/resources/js/framework/station_name.js?station_version=1.9058").build();
                 try {
                     Response response = client.newCall(request).execute();
                     String responseDataString = response.body().string();
@@ -290,6 +289,9 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
         mText.setText("乘车日期: " + DateFormat.getDateFormat(getActivity()).format(now.getTime()));
 
         isStudentTicket = false;
+
+        purchasableDateTextview.setText(calPurchasableDateString());
+
     }
 
     private String processDate(int year, int month, int day) {
@@ -308,6 +310,46 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
         }
 
         return dateString;
+    }
+
+    private String calPurchasableDateString() {
+        String purchasableDateString = "";
+
+        LocalDate localDate = new LocalDate();
+
+        purchasableDateString += "预售信息:\n";
+
+        purchasableDateString += "今天是" + localDate + "(" + intToDayOfWeekString(localDate.dayOfWeek().get()) + ")" + "\n";
+
+        localDate = localDate.plusDays(30);
+
+        purchasableDateString += "学生票可购至" + localDate + "车票\n";
+        purchasableDateString += "网络和电话订票可购至" + localDate + "车票\n";
+
+        localDate = localDate.minusDays(3);
+        purchasableDateString += "代售点及车站售票窗口可购至" + localDate + "车票\n";
+
+        return purchasableDateString;
+    }
+
+    private String intToDayOfWeekString(int intDayOfWeek) {
+        switch (intDayOfWeek) {
+            case 1:
+                return "周一";
+            case 2:
+                return "周二";
+            case 3:
+                return "周三";
+            case 4:
+                return "周四";
+            case 5:
+                return "周五";
+            case 6:
+                return "周六";
+            case 7:
+                return "周日";
+        }
+        return "";
     }
 
 }

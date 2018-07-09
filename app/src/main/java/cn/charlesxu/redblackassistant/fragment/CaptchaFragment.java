@@ -53,7 +53,7 @@ public class CaptchaFragment extends DialogFragment {
 
     //定义一个回调接口
     public interface CallBackValue {
-        public void SendMessageValue(String strValue);
+        void SendMessageValue(String strValue);
     }
 
     public Bitmap drawableToBitmap(Drawable drawable) {

@@ -32,6 +32,21 @@ public class OrderDTOData {
     private String if_deliver;
     private String insure_query_no;
 
+    public String getTrainInfo() {
+        String trainInfo;
+        trainInfo = start_train_date_page + "开 " + from_station_name_page.get(0) + "->" + to_station_name_page.get(0);
+        return trainInfo;
+    }
+
+    public String getPassengers() {
+        String passengers = "";
+        for (String p : array_passser_name_page) {
+            passengers += p + ",";
+        }
+        return passengers;
+    }
+
+
     public String getSequence_no() {
         return sequence_no;
     }

@@ -13,25 +13,21 @@ import java.util.List;
 
 import cn.charlesxu.redblackassistant.R;
 import cn.charlesxu.redblackassistant.model.Station;
-import cn.charlesxu.redblackassistant.service.CheckDataBase;
 
 import static android.app.Activity.RESULT_OK;
 
 public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder> {
     private List<Station> stationList;
-
-    private CheckDataBase checkDataBase;
+    private Activity mActivity;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView stationNameText;
 
         public ViewHolder(View view) {
             super(view);
-            stationNameText = (TextView) view.findViewById(R.id.stationName_textView);
+            stationNameText = view.findViewById(R.id.stationName_textView);
         }
     }
-
-    private Activity mActivity;
 
     public StationAdapter(List<Station> stations, Activity mActivity) {
         stationList = stations;

@@ -71,4 +71,7 @@ dependencies {
     implementation 'io.apisense:rhino-android:1.0'
 
     implementation 'commons-beanutils:commons-beanutils:1.9.3'
+
+    implementation 'net.danlew:android.joda:2.9.9.4'
+
 }

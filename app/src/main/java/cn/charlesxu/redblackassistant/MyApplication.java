@@ -7,6 +7,8 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import org.litepal.LitePal;
 
 import okhttp3.OkHttpClient;
@@ -36,6 +38,9 @@ public class MyApplication extends Application {
                 .build();
 
         OkHttpUtils.initClient(client);
+
+
+        JodaTimeAndroid.init(this);
     }
 
 //    public static ClearableCookieJar cookieJar =

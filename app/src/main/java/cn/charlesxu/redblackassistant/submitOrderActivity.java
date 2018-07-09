@@ -202,7 +202,7 @@ public class submitOrderActivity extends AppCompatActivity {
                 Elements eles = document.getElementsByTag("script");
                 for (Element ele : eles) {
                     String script = ele.toString();
-                    if (script.indexOf("globalRepeatSubmitToken") > -1) {
+                    if (script.contains("globalRepeatSubmitToken")) {
                         // 只取得script的內容
                         script = ele.childNode(0).toString();
 
@@ -219,7 +219,7 @@ public class submitOrderActivity extends AppCompatActivity {
                         globalRepeatSubmitToken = globalRepeatSubmitTokenObj.toString();
 
 
-                    } else if (script.indexOf("ticketInfoForPassengerForm") > -1) {
+                    } else if (script.contains("ticketInfoForPassengerForm")) {
                         // 只取得script的內容
                         script = ele.childNode(0).toString();
 
@@ -383,7 +383,7 @@ public class submitOrderActivity extends AppCompatActivity {
                         passengerTicketString += "0,1,";
 
                         passengerTicketString += passenger.getPassenger_name() + "," + passenger.getPassenger_id_type_code() + "," + passenger.getPassenger_id_no() + "," + passenger.getMobile_no() + "," + "N";
-                        oldPassengerString += passenger.getPassenger_name() + "," + passenger.getPassenger_id_type_code() + "," + passenger.getPassenger_id_no() + "," + "1" + "_";
+                        oldPassengerString += passenger.getPassenger_name() + "," + passenger.getPassenger_id_type_code() + "," + passenger.getPassenger_id_no() + "," + "3" + "_";
 
                     }
                 }
