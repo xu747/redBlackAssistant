@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/startDate_textView"
         android:layout_width="0dp"
-        android:layout_height="27dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="95dp"
         android:layout_marginStart="95dp"
         android:layout_marginTop="172dp"
@@ -41,10 +41,10 @@
 
     <Button
         android:id="@+id/query_button"
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="142dp"
-        android:layout_marginStart="142dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="查询"
         app:layout_constraintEnd_toEndOf="parent"

@@ -368,6 +368,7 @@ public class submitOrderActivity extends AppCompatActivity {
                     if (checkBox.isChecked()) {
                         Passenger passenger = passengerList.get(i);
 
+                        //从第二个乘客开始，前面需要加_将各个乘客分割。
                         if (!passengerTicketString.equals("")) {
                             passengerTicketString += "_";
                         }
@@ -382,8 +383,9 @@ public class submitOrderActivity extends AppCompatActivity {
                         }
                         passengerTicketString += "0,1,";
 
+                        //注意：出现扣票失败时，先检查oldPassengerString尾部的1(或者3)。
                         passengerTicketString += passenger.getPassenger_name() + "," + passenger.getPassenger_id_type_code() + "," + passenger.getPassenger_id_no() + "," + passenger.getMobile_no() + "," + "N";
-                        oldPassengerString += passenger.getPassenger_name() + "," + passenger.getPassenger_id_type_code() + "," + passenger.getPassenger_id_no() + "," + "3" + "_";
+                        oldPassengerString += passenger.getPassenger_name() + "," + passenger.getPassenger_id_type_code() + "," + passenger.getPassenger_id_no() + "," + "1" + "_";
 
                     }
                 }

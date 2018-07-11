@@ -1,15 +1,12 @@
 package cn.charlesxu.redblackassistant;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -17,8 +14,9 @@ import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import cn.charlesxu.redblackassistant.adapter.LeftticketAdapter;
+import cn.charlesxu.redblackassistant.adapter.LeftTicketAdapter;
 import cn.charlesxu.redblackassistant.model.QueryLeftNewDTO;
 import cn.charlesxu.redblackassistant.service.StationService;
 
@@ -41,27 +39,19 @@ public class leftTicketActivity extends AppCompatActivity {
 
         leftTicketJSONTOClass(leftTicketJSONString);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        mRecyclerView = findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-
-        LeftticketAdapter adapter = new LeftticketAdapter(this,queryLeftNewDTOList );
-        mRecyclerView.setAdapter(adapter);
-        //mRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        DividerItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        divider.setDrawable(ContextCompat.getDrawable(this,R.drawable.divid_line));
+        mRecyclerView.setAdapter(new LeftTicketAdapter(queryLeftNewDTOList, trainDateString, purposeCodes, fromStationName, toStationName, getActivity()));
+        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        divider.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.divid_line)));
         mRecyclerView.addItemDecoration(divider);
     }
 
     void leftTicketJSONTOClass(String leftTicketJSONString) {
         JsonElement je = new JsonParser().parse(leftTicketJSONString);
-        String resultString = je.getAsJsonObject().get("data").getAsJsonObject().get("result").toString();
         JsonArray resultJsonArray = je.getAsJsonObject().get("data").getAsJsonObject().get("result").getAsJsonArray();
-        //resultString = resultString.substring(1, resultString.length() - 1);
-        //String[] result = resultString.split(",");
         for (JsonElement jsonElement : resultJsonArray) {
             String s = jsonElement.getAsString();
-            //s = s.substring(1, s.length() - 1);
             String[] ticket = s.split("\\|");
             QueryLeftNewDTO queryLeftNewDTO = new QueryLeftNewDTO();
             queryLeftNewDTO.setSecretStr(ticket[0]);
@@ -111,30 +101,7 @@ public class leftTicketActivity extends AppCompatActivity {
         }
     }
 
-    private class TestDividerItemDecoration extends RecyclerView.ItemDecoration{
-        private Paint mPaint;
-        public TestDividerItemDecoration(){
-            mPaint=new Paint();
-            mPaint.setAntiAlias(true);
-            mPaint.setColor(Color.RED);
-        }
 
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            super.getItemOffsets(outRect, view, parent, state);
-            if(parent.getChildAdapterPosition(view)!=0){
-                outRect.top=1;
-            }
-        }
-//        @Override
-//        public void getItemOffsets(Rect outRect, View view,RecyclerView parent,RecyclerView.State state){
-//            super.getItemOffsets(outRect,view,parent,state);
-//            if(parent.getChildAdapterPosition(view)!=0){
-//                outRect.bottom=1;
-//            }
-//        }
-
-    }
     /*private SmartTable table;
     private List<QueryLeftNewDTO> queryLeftNewDTOList = new ArrayList<>();
     private StationService stationService = new StationService();
@@ -228,65 +195,9 @@ public class leftTicketActivity extends AppCompatActivity {
         table.setZoom(true, 0.5f, 2);
     }
 
-    void leftTicketJSONTOClass(String leftTicketJSONString) {
-        JsonElement je = new JsonParser().parse(leftTicketJSONString);
-        String resultString = je.getAsJsonObject().get("data").getAsJsonObject().get("result").toString();
-        JsonArray resultJsonArray = je.getAsJsonObject().get("data").getAsJsonObject().get("result").getAsJsonArray();
-        //resultString = resultString.substring(1, resultString.length() - 1);
-        //String[] result = resultString.split(",");
-        for (JsonElement jsonElement : resultJsonArray) {
-            String s = jsonElement.getAsString();
-            //s = s.substring(1, s.length() - 1);
-            String[] ticket = s.split("\\|");
-            QueryLeftNewDTO queryLeftNewDTO = new QueryLeftNewDTO();
-            queryLeftNewDTO.setSecretStr(ticket[0]);
-            queryLeftNewDTO.setButtonTextInfo(ticket[1]);
-            queryLeftNewDTO.setTrainNo(ticket[2]);
-            queryLeftNewDTO.setStationTrainCode(ticket[3]);
-            queryLeftNewDTO.setStartStationTelecode(ticket[4]);
-            queryLeftNewDTO.setEndStationTelecode(ticket[5]);
-            queryLeftNewDTO.setFromStationTelecode(ticket[6]);
-            queryLeftNewDTO.setToStationTelecode(ticket[7]);
-            queryLeftNewDTO.setStartTime(ticket[8]);
-            queryLeftNewDTO.setArriveTime(ticket[9]);
-            queryLeftNewDTO.setLishi(ticket[10]);
-            queryLeftNewDTO.setCanWebBuy(ticket[11]);
-            queryLeftNewDTO.setYpInfo(ticket[12]);
-            queryLeftNewDTO.setStartTrainDate(ticket[13]);
-            queryLeftNewDTO.setTrainSeatFeature(ticket[14]);
-            queryLeftNewDTO.setLocationCode(ticket[15]);
-            queryLeftNewDTO.setFromStationNo(ticket[16]);
-            queryLeftNewDTO.setToStationNo(ticket[17]);
-            queryLeftNewDTO.setIsSupportCard(ticket[18]);
-            queryLeftNewDTO.setControlledTrainFlag(ticket[19]);
-            queryLeftNewDTO.setGgNum(ticket[20]);
-            queryLeftNewDTO.setGrNum(ticket[21]);
-            queryLeftNewDTO.setQtNum(ticket[22]);
-            queryLeftNewDTO.setRwNum(ticket[23]);
-            queryLeftNewDTO.setRzNum(ticket[24]);
-            queryLeftNewDTO.setTzNum(ticket[25]);
-            queryLeftNewDTO.setWzNum(ticket[26]);
-            queryLeftNewDTO.setYbNum(ticket[27]);
-            queryLeftNewDTO.setYwNum(ticket[28]);
-            queryLeftNewDTO.setYzNum(ticket[29]);
-            queryLeftNewDTO.setZeNum(ticket[30]);
-            queryLeftNewDTO.setZyNum(ticket[31]);
-            queryLeftNewDTO.setSwzNum(ticket[32]);
-            queryLeftNewDTO.setSrrbNum(ticket[33]);
-            queryLeftNewDTO.setYpEx(ticket[34]);
-            queryLeftNewDTO.setSeatTypes(ticket[35]);
-            queryLeftNewDTO.setIsSupportCredits(ticket[36]);
-
-            queryLeftNewDTO.setStartStationName(stationService.getStationNameByTgCode(queryLeftNewDTO.getStartStationTelecode()));
-            queryLeftNewDTO.setEndStationName(stationService.getStationNameByTgCode(queryLeftNewDTO.getEndStationTelecode()));
-            queryLeftNewDTO.setFromStationName(stationService.getStationNameByTgCode(queryLeftNewDTO.getFromStationTelecode()));
-            queryLeftNewDTO.setToStationName(stationService.getStationNameByTgCode(queryLeftNewDTO.getToStationTelecode()));
-
-            queryLeftNewDTOList.add(queryLeftNewDTO);
-        }
-    }
+    */
 
     private Activity getActivity() {
         return this;
-    }*/
+    }
 }

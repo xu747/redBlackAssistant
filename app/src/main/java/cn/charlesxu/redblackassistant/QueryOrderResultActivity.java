@@ -33,13 +33,15 @@ public class QueryOrderResultActivity extends AppCompatActivity {
         String resultJSONString = getIntent().getStringExtra("resultJSONString");
         if (!resultJSONString.equals("")) {
             JsonElement je = new JsonParser().parse(resultJSONString);
-            JsonObject orderData = je.getAsJsonObject().get("data").getAsJsonObject();
-            if (orderData.getAsJsonArray("orderDBList") == null) {
-                QueryOrderData queryOrderData = gson.fromJson(orderData, QueryOrderData.class);
-                orderDBList = queryOrderData.getOrderDTODataList();
-            } else {
-                OrderDB orderDB = gson.fromJson(orderData, OrderDB.class);
-                orderDBList = orderDB.getOrderDBList();
+            if(!(je.getAsJsonObject().get("data") == null)){
+                JsonObject orderData = je.getAsJsonObject().get("data").getAsJsonObject();
+                if (orderData.getAsJsonArray("orderDBList") == null) {
+                    QueryOrderData queryOrderData = gson.fromJson(orderData, QueryOrderData.class);
+                    orderDBList = queryOrderData.getOrderDTODataList();
+                } else {
+                    OrderDB orderDB = gson.fromJson(orderData, OrderDB.class);
+                    orderDBList = orderDB.getOrderDBList();
+                }
             }
         }
 

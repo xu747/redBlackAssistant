@@ -175,9 +175,9 @@ public class MainQueryFragment extends BaseFragment implements DatePickerDialog.
                 now.get(Calendar.DAY_OF_MONTH));
         DatePickerDialog dateDialog = (DatePickerDialog) dialog;
         dateDialog.setMinDate(now);
-        Calendar max = Calendar.getInstance();
-        max.add(Calendar.YEAR, 10);
-        dateDialog.setMaxDate(max);
+        Calendar nowPlus30Days = Calendar.getInstance();
+        nowPlus30Days.add(Calendar.DATE, 30);
+        dateDialog.setMaxDate(nowPlus30Days);
         dateDialog.setYearRange(1970, 2032);
 
         dialog.setThemeDark(themeDark);
