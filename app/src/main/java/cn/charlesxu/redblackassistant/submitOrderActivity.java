@@ -637,7 +637,7 @@ public class submitOrderActivity extends AppCompatActivity {
                 Runnable successRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), orderIdString + "订单已成功下单！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "订单已成功下单！", Toast.LENGTH_SHORT).show();
                     }
                 };
                 handler.post(successRunnable);

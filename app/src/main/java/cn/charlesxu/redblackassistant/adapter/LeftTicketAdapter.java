@@ -33,7 +33,7 @@ public class LeftTicketAdapter extends RecyclerView.Adapter<LeftTicketAdapter.Vi
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView startStationTextView, startTimeTextView, trainIdTextView, arriveStationTextView, arriveTimeTextView, durationTimeTextView;
-        private TextView leftSeat1TextView,leftSeat2TextView,leftSeat3TextView,leftSeat4TextView;
+        private TextView leftSeat1TextView, leftSeat2TextView, leftSeat3TextView, leftSeat4TextView;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -91,35 +91,35 @@ public class LeftTicketAdapter extends RecyclerView.Adapter<LeftTicketAdapter.Vi
         holder.durationTimeTextView.setText("历时 " + dataList.get(position).getLishi());
 
         //动车、高铁
-        if(dataList.get(position).getStationTrainCode().contains("G") || dataList.get(position).getStationTrainCode().contains("D") || dataList.get(position).getStationTrainCode().contains("C")){
+        if (dataList.get(position).getStationTrainCode().contains("G") || dataList.get(position).getStationTrainCode().contains("D") || dataList.get(position).getStationTrainCode().contains("C")) {
             //如果是动车、高铁
             //检查是否为动卧列车
-            if(dataList.get(position).getSrrbNum().equals("")){
-                holder.leftSeat1TextView.setText("二等座:"+ dataList.get(position).getZeNum());
-                holder.leftSeat2TextView.setText("一等座:"+ dataList.get(position).getZyNum());
-                if(!dataList.get(position).getSwzNum().equals("")){
-                    holder.leftSeat3TextView.setText("商务座:"+ dataList.get(position).getSwzNum());
-                }else {
-                    holder.leftSeat3TextView.setText("特等座:"+ dataList.get(position).getSwzNum());
+            if (dataList.get(position).getSrrbNum().equals("")) {
+                holder.leftSeat1TextView.setText("二等座:" + dataList.get(position).getZeNum());
+                holder.leftSeat2TextView.setText("一等座:" + dataList.get(position).getZyNum());
+                if (!dataList.get(position).getSwzNum().equals("")) {
+                    holder.leftSeat3TextView.setText("商务座:" + dataList.get(position).getSwzNum());
+                } else {
+                    holder.leftSeat3TextView.setText("特等座:" + dataList.get(position).getSwzNum());
                 }
                 //如果无座String为空
-                if(dataList.get(position).getWzNum().equals("")){
+                if (dataList.get(position).getWzNum().equals("")) {
                     holder.leftSeat4TextView.setVisibility(View.INVISIBLE);
-                }else {
-                    holder.leftSeat4TextView.setText("无座:"+ dataList.get(position).getWzNum());
+                } else {
+                    holder.leftSeat4TextView.setText("无座:" + dataList.get(position).getWzNum());
                 }
-            }else {
-                holder.leftSeat1TextView.setText("动卧:"+ dataList.get(position).getSrrbNum());
-                holder.leftSeat2TextView.setText("高级软卧:"+dataList.get(position).getGrNum());
-                holder.leftSeat3TextView.setText("二等座:"+ dataList.get(position).getZeNum());
+            } else {
+                holder.leftSeat1TextView.setText("动卧:" + dataList.get(position).getSrrbNum());
+                holder.leftSeat2TextView.setText("高级软卧:" + dataList.get(position).getGrNum());
+                holder.leftSeat3TextView.setText("二等座:" + dataList.get(position).getZeNum());
                 holder.leftSeat4TextView.setVisibility(View.INVISIBLE);
             }
-        }else {
+        } else {
             //如果为普速列车
-            holder.leftSeat1TextView.setText("硬座:"+ dataList.get(position).getYzNum());
-            holder.leftSeat2TextView.setText("硬卧:"+dataList.get(position).getYwNum());
-            holder.leftSeat3TextView.setText("软卧:"+ dataList.get(position).getRwNum());
-            holder.leftSeat4TextView.setText("无座:"+ dataList.get(position).getWzNum());
+            holder.leftSeat1TextView.setText("硬座:" + dataList.get(position).getYzNum());
+            holder.leftSeat2TextView.setText("硬卧:" + dataList.get(position).getYwNum());
+            holder.leftSeat3TextView.setText("软卧:" + dataList.get(position).getRwNum());
+            holder.leftSeat4TextView.setText("无座:" + dataList.get(position).getWzNum());
         }
 
     }
@@ -128,7 +128,6 @@ public class LeftTicketAdapter extends RecyclerView.Adapter<LeftTicketAdapter.Vi
     public int getItemCount() {
         return dataList.size();
     }
-
 
 
 }

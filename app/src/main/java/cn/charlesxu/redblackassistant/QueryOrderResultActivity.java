@@ -35,7 +35,7 @@ public class QueryOrderResultActivity extends AppCompatActivity {
         String resultJSONString = getIntent().getStringExtra("resultJSONString");
         if (!resultJSONString.equals("")) {
             JsonElement je = new JsonParser().parse(resultJSONString);
-            if(!(je.getAsJsonObject().get("data") == null)){
+            if (!(je.getAsJsonObject().get("data") == null)) {
                 JsonObject orderData = je.getAsJsonObject().get("data").getAsJsonObject();
                 if (orderData.getAsJsonArray("orderDBList") == null) {
                     QueryOrderData queryOrderData = gson.fromJson(orderData, QueryOrderData.class);
@@ -52,8 +52,8 @@ public class QueryOrderResultActivity extends AppCompatActivity {
         orderRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         orderRecyclerView.setAdapter(new OrderAdapter(orderDBList));
 
-        DividerItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        divider.setDrawable(ContextCompat.getDrawable(this,R.drawable.divid_line));
+        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divid_line));
         orderRecyclerView.addItemDecoration(divider);
     }
 }
