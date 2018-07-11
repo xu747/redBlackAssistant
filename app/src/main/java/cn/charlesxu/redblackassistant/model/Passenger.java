@@ -1,6 +1,8 @@
 package cn.charlesxu.redblackassistant.model;
 
-public class Passenger {
+import org.litepal.crud.DataSupport;
+
+public class Passenger extends DataSupport {
     private String code;
     private String passenger_name;
     private String sex_code;

@@ -33,6 +33,7 @@
     -->
     <list>
         <mapping class="cn.charlesxu.redblackassistant.model.Station"/>
+        <mapping class="cn.charlesxu.redblackassistant.model.SuperviseTicket"/>
     </list>
 
     <!--

@@ -29,6 +29,7 @@ import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -44,6 +45,7 @@ import javax.script.ScriptException;
 import cn.charlesxu.redblackassistant.model.Passenger;
 import cn.charlesxu.redblackassistant.model.PassengerDTOsData;
 import cn.charlesxu.redblackassistant.model.QueryLeftNewDTO;
+import cn.charlesxu.redblackassistant.model.SuperviseTicket;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -160,7 +162,15 @@ public class submitOrderActivity extends AppCompatActivity {
 
 
                 if (je.getAsJsonObject().get("status").toString().equals("false")) {
-                    System.out.println(je.getAsJsonObject().get("messages").toString());
+                    final String messages = je.getAsJsonObject().get("messages").toString();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), messages, Toast.LENGTH_SHORT).show();
+                        }
+                    };
+                    handler.post(runnable);
+                    System.out.println(messages);
                     return;
                 }
 
@@ -337,12 +347,12 @@ public class submitOrderActivity extends AppCompatActivity {
 
         for (String key : hashMap.keySet()) {
             RadioButton radioButton = new RadioButton(getActivity());
-            if (hashMap.get(key).equals("有")) {
+            if (hashMap.get(key).equals("有") || hashMap.get(key).equals("无")) {
                 radioButton.setText(key + "(" + hashMap.get(key) + "票)");
                 ticketTypeRadioButtonList.add(radioButton);
                 ticketTypeRadioGroup.addView(radioButton);
-            } else if (hashMap.get(key).equals("") || hashMap.get(key).equals("无")) {
-
+            } else if (hashMap.get(key).equals("")) {
+                //do nothing
             } else {
                 radioButton.setText(key + "(" + hashMap.get(key) + "张)");
                 ticketTypeRadioButtonList.add(radioButton);
@@ -362,6 +372,49 @@ public class submitOrderActivity extends AppCompatActivity {
                 String passengerTicketString = "";
                 String oldPassengerString = "";
                 String seatTypeCodeString = null;
+
+                //若选择的是无票的车种，则加入抢票数据库
+                for (RadioButton radioButton : ticketTypeRadioButtonList) {
+                    if (radioButton.isChecked()) {
+                        if (radioButton.getText().toString().substring(radioButton.getText().toString().indexOf("(") + 1, radioButton.getText().toString().indexOf("(") + 2).equals("无")) {
+
+                            String passengers = "";
+                            for (int i = 0; i < passengerCheckBoxList.size(); i++) {
+                                CheckBox checkBox = passengerCheckBoxList.get(i);
+                                if (checkBox.isChecked()) {
+                                    passengers += passengerList.get(i).getPassenger_name() + ",";
+                                }
+                            }
+
+                            String seatTypeNameString = radioButton.getText().toString().substring(0, radioButton.getText().toString().indexOf("("));
+
+                            SuperviseTicket superviseTicket = new SuperviseTicket();
+                            superviseTicket.setTrainDate(trainDateString);
+                            superviseTicket.setTrainDateFormat(dateStringToJsDateFormat(trainDateString));
+                            superviseTicket.setTrainNo(queryLeftNewDTO.getTrainNo());
+                            superviseTicket.setStationTrainCode(queryLeftNewDTO.getStationTrainCode());
+                            superviseTicket.setFromStationTelecode(queryLeftNewDTO.getFromStationTelecode());
+                            superviseTicket.setToStationTelecode(queryLeftNewDTO.getToStationTelecode());
+                            superviseTicket.setFromStationName(queryLeftNewDTO.getFromStationName());
+                            superviseTicket.setToStationName(queryLeftNewDTO.getToStationName());
+                            superviseTicket.setSeatType(seatTypeNameString);
+                            superviseTicket.setPause(false);
+                            superviseTicket.setPassengersName(passengers);
+                            superviseTicket.setRequestCount(0);
+                            superviseTicket.save();
+
+                            Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getActivity(), "订单已加入抢票监控队列！", Toast.LENGTH_SHORT).show();
+                                }
+                            };
+                            handler.post(runnable);
+                        }
+                        return;
+                    }
+                }
+
 
                 for (int i = 0; i < passengerCheckBoxList.size(); i++) {
                     CheckBox checkBox = passengerCheckBoxList.get(i);
@@ -432,24 +485,24 @@ public class submitOrderActivity extends AppCompatActivity {
 
 
                 if (je.getAsJsonObject().get("status").toString().equals("false")) {
-                    System.out.println("checkOrderInfo错误 : " + je.getAsJsonObject().get("messages").toString());
+
+                    final String messages = "checkOrderInfo错误 : " + je.getAsJsonObject().get("messages").toString();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), messages, Toast.LENGTH_SHORT).show();
+                        }
+                    };
+                    handler.post(runnable);
+                    System.out.println(messages);
                     return;
                 }
 
                 String getQueueCountUrl = "https://kyfw.12306.cn/otn/confirmPassenger/getQueueCount";
 
-                DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-                DateFormat format2 = new SimpleDateFormat("E MMM dd yyyy HH:mm:ss 'GMT'Z (zzzz)", Locale.ENGLISH);
-                Date trainDate = null;
-                String trainDateFormatString = null;
-                try {
-                    trainDate = format1.parse(trainDateString);
-                    trainDateFormatString = format2.format(trainDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String trainDateFormatString = dateStringToJsDateFormat(trainDateString);
 
-                if (trainDate == null || trainDateFormatString == null) {
+                if (trainDateFormatString == null) {
                     return;
                 }
 
@@ -518,7 +571,16 @@ public class submitOrderActivity extends AppCompatActivity {
 
 
                 if (je.getAsJsonObject().get("status").toString().equals("false")) {
-                    System.out.println("getQueueCount错误 : " + je.getAsJsonObject().get("messages").toString());
+
+                    final String messages = "getQueueCount错误 : " + je.getAsJsonObject().get("messages").toString();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), messages, Toast.LENGTH_SHORT).show();
+                        }
+                    };
+                    handler.post(runnable);
+                    System.out.println(messages);
                     return;
                 }
 
@@ -568,13 +630,30 @@ public class submitOrderActivity extends AppCompatActivity {
 
 
                 if (je.getAsJsonObject().get("status").toString().equals("false")) {
-                    System.out.println("confirmSingleForQueue错误 : " + je.getAsJsonObject().get("data").toString());
+
+                    final String messages = "confirmSingleForQueue错误 : " + je.getAsJsonObject().get("data").toString();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), messages, Toast.LENGTH_SHORT).show();
+                        }
+                    };
+                    handler.post(runnable);
+                    System.out.println(messages);
                     return;
                 }
 
                 if (je.getAsJsonObject().get("data").getAsJsonObject().get("submitStatus").toString().equals("false")) {
-                    String errMsg = je.getAsJsonObject().get("data").getAsJsonObject().get("errMsg").toString();
-                    System.out.println("入队失败：" + errMsg);
+
+                    final String messages = je.getAsJsonObject().get("data").getAsJsonObject().get("errMsg").toString();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), messages, Toast.LENGTH_SHORT).show();
+                        }
+                    };
+                    handler.post(runnable);
+                    System.out.println(messages);
                     return;
                 }
 
@@ -605,7 +684,16 @@ public class submitOrderActivity extends AppCompatActivity {
 
 
                 if (je.getAsJsonObject().get("status").toString().equals("false")) {
-                    System.out.println("queryOrderWaitTimeUrl错误 : " + je.getAsJsonObject().get("messages").toString());
+
+                    final String messages = "queryOrderWaitTimeUrl错误 : " + je.getAsJsonObject().get("messages").toString();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), messages, Toast.LENGTH_SHORT).show();
+                        }
+                    };
+                    handler.post(runnable);
+                    System.out.println(messages);
                     return;
                 }
 
@@ -690,5 +778,20 @@ public class submitOrderActivity extends AppCompatActivity {
 
     private Activity getActivity() {
         return this;
+    }
+
+    private String dateStringToJsDateFormat(String dateString) {
+        DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat format2 = new SimpleDateFormat("E MMM dd yyyy HH:mm:ss 'GMT'Z (zzzz)", Locale.ENGLISH);
+        Date trainDate = null;
+        String trainDateFormatString = null;
+        try {
+            trainDate = format1.parse(dateString);
+            trainDateFormatString = format2.format(trainDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return trainDateFormatString;
     }
 }

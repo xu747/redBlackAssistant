@@ -1,107 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
     <LinearLayout
-        android:paddingTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1.5"
         android:orientation="horizontal"
-        android:layout_weight="1.5">
+        android:paddingTop="5dp">
 
         <TextView
+            android:id="@+id/trainRange_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="区间：啦啦啦啦-->啊啊啊啊"/>
+            android:text="区间：啦啦啦啦-->啊啊啊啊" />
 
         <TextView
+            android:id="@+id/trainDate_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="时间：0000-00-00"/>
+            android:textAlignment="textEnd"
+            android:text="时间：0000-00-00" />
 
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5">
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/seatType_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="坐席：啦啦啦"/>
+            android:text="坐席：啦啦啦" />
 
         <TextView
+            android:id="@+id/stationTrainCode_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="车次：G0000"/>
+            android:textAlignment="center"
+            android:text="车次：G0000" />
 
         <TextView
+            android:id="@+id/passengers_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="乘客：啊啊啊啊"/>
+            android:textAlignment="textEnd"
+            android:text="乘客：啊啊啊啊" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:background="#D8BFD8"
         android:layout_width="match_parent"
-        android:layout_height="2dp">
+        android:layout_height="2dp"
+        android:background="#D8BFD8">
 
     </LinearLayout>
 
     <LinearLayout
-        android:paddingTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="5dp">
 
         <ImageView
+            android:id="@+id/statusRound_imageView"
             android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_weight="0.5"
-            android:src="@drawable/ic_supervise_load"/>
+            android:src="@drawable/ic_supervise_load" />
 
         <TextView
+            android:id="@+id/superviseStatus_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="正在抢票/暂停抢票"/>
+            android:text="正在抢票/暂停抢票" />
 
         <Button
+            android:id="@+id/startStop_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/supervise_button1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="暂停/开始"/>
+            android:background="@drawable/supervise_button1"
+            android:text="暂停/开始" />
 
         <Button
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/supervise_button2"
+            android:id="@+id/delete_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:text="删除"/>
+            android:background="@drawable/supervise_button2"
+            android:text="删除" />
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>

@@ -134,4 +134,22 @@ public class UserFragment extends BaseFragment {
         Intent intent = new Intent(getActivity(), QueryOrderActivity.class);
         startActivity(intent);
     }
+
+    boolean isCreated = true;
+
+    /**
+     * 此方法目前仅适用于标示ViewPager中的Fragment是否真实可见
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (!isCreated) {
+            return;
+        }
+
+        if (isVisibleToUser) {
+           getUserName();
+        }
+    }
 }

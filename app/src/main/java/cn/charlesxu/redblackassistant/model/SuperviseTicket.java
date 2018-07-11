@@ -2,6 +2,8 @@ package cn.charlesxu.redblackassistant.model;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.List;
+
 public class SuperviseTicket extends DataSupport {
 //                train_date: Thu Jun 28 2018 00:00:00 GMT+0800 (China Standard Time)
 //                train_no: 5l0000D37962
@@ -38,11 +40,18 @@ public class SuperviseTicket extends DataSupport {
     private String fromStationName;
     private String toStationName;
     private String seatType;
-    private String leftTicket;
-    private String purpose_codes;
-    private String train_location;
-    private String _json_att;
-    private String REPEAT_SUBMIT_TOKEN;
+    private String passengersName;
+    private int requestCount;
+    private boolean isPause;
+
+
+    public String getPassengersName() {
+        return passengersName;
+    }
+
+    public void setPassengersName(String passengersName) {
+        this.passengersName = passengersName;
+    }
 
     public String getTrainDate() {
         return trainDate;
@@ -50,22 +59,6 @@ public class SuperviseTicket extends DataSupport {
 
     public void setTrainDate(String trainDate) {
         this.trainDate = trainDate;
-    }
-
-    public String getFromStationName() {
-        return fromStationName;
-    }
-
-    public void setFromStationName(String fromStationName) {
-        this.fromStationName = fromStationName;
-    }
-
-    public String getToStationName() {
-        return toStationName;
-    }
-
-    public void setToStationName(String toStationName) {
-        this.toStationName = toStationName;
     }
 
     public String getTrainDateFormat() {
@@ -92,14 +85,6 @@ public class SuperviseTicket extends DataSupport {
         this.stationTrainCode = stationTrainCode;
     }
 
-    public String getSeatType() {
-        return seatType;
-    }
-
-    public void setSeatType(String seatType) {
-        this.seatType = seatType;
-    }
-
     public String getFromStationTelecode() {
         return fromStationTelecode;
     }
@@ -116,43 +101,43 @@ public class SuperviseTicket extends DataSupport {
         this.toStationTelecode = toStationTelecode;
     }
 
-    public String getLeftTicket() {
-        return leftTicket;
+    public String getFromStationName() {
+        return fromStationName;
     }
 
-    public void setLeftTicket(String leftTicket) {
-        this.leftTicket = leftTicket;
+    public void setFromStationName(String fromStationName) {
+        this.fromStationName = fromStationName;
     }
 
-    public String getPurpose_codes() {
-        return purpose_codes;
+    public String getToStationName() {
+        return toStationName;
     }
 
-    public void setPurpose_codes(String purpose_codes) {
-        this.purpose_codes = purpose_codes;
+    public void setToStationName(String toStationName) {
+        this.toStationName = toStationName;
     }
 
-    public String getTrain_location() {
-        return train_location;
+    public String getSeatType() {
+        return seatType;
     }
 
-    public void setTrain_location(String train_location) {
-        this.train_location = train_location;
+    public void setSeatType(String seatType) {
+        this.seatType = seatType;
     }
 
-    public String get_json_att() {
-        return _json_att;
+    public int getRequestCount() {
+        return requestCount;
     }
 
-    public void set_json_att(String _json_att) {
-        this._json_att = _json_att;
+    public void setRequestCount(int requestCount) {
+        this.requestCount = requestCount;
     }
 
-    public String getREPEAT_SUBMIT_TOKEN() {
-        return REPEAT_SUBMIT_TOKEN;
+    public boolean isPause() {
+        return isPause;
     }
 
-    public void setREPEAT_SUBMIT_TOKEN(String REPEAT_SUBMIT_TOKEN) {
-        this.REPEAT_SUBMIT_TOKEN = REPEAT_SUBMIT_TOKEN;
+    public void setPause(boolean pause) {
+        isPause = pause;
     }
 }
