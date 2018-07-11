@@ -6,11 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".leftTicketActivity">
 
-    <com.bin.david.form.core.SmartTable
+<!--    <com.bin.david.form.core.SmartTable
         android:id="@+id/table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="457dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp" />-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
 
 </android.support.constraint.ConstraintLayout>
