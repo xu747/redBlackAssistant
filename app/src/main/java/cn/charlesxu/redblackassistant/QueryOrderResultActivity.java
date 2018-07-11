@@ -1,7 +1,9 @@
 package cn.charlesxu.redblackassistant;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -47,5 +49,9 @@ public class QueryOrderResultActivity extends AppCompatActivity {
         orderRecyclerView = findViewById(R.id.order_recyclerView);
         orderRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         orderRecyclerView.setAdapter(new OrderAdapter(orderDBList));
+
+        DividerItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(this,R.drawable.divid_line));
+        orderRecyclerView.addItemDecoration(divider);
     }
 }

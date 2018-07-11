@@ -1,48 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="130dp"
     android:orientation="vertical">
+    <LinearLayout
+        android:background="#DCDCDC"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
-    <TextView
-        android:id="@+id/sequenceNo_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="订单号:" />
+        <TextView
+            android:id="@+id/orderTime_textView"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:text="订单时间:" />
 
-    <TextView
-        android:id="@+id/trainInfo_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="车次信息:" />
+        <TextView
+            android:textAlignment="textEnd"
+            android:id="@+id/ticketNum_textView"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:text="总张数:" />
 
-    <TextView
-        android:id="@+id/orderTime_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="订单时间:" />
 
-    <TextView
-        android:id="@+id/passengers_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="乘车人:" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/ticketNum_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="总张数:" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp">
 
-    <TextView
-        android:id="@+id/orderStatus_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="订单状态:" />
+        <TextView
+            android:id="@+id/trainInfo_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="车次信息:"
+            android:paddingTop="7dp"
+            android:textSize="16sp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/passengers_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="乘车人:"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/sequenceNo_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="订单号:"
+            android:textSize="15sp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:textColor="	#1E90FF"
+            android:id="@+id/orderStatus_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="订单状态:" />
+
+
+    </LinearLayout>
+
+    <!--<TextView-->
+        <!--android:id="@+id/sequenceNo_textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="订单号:" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/trainInfo_textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="车次信息:" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/orderTime_textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="订单时间:" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/passengers_textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="乘车人:" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/ticketNum_textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="总张数:" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/orderStatus_textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="订单状态:" />-->
 </LinearLayout>
