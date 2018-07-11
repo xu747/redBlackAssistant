@@ -2,6 +2,7 @@ package cn.charlesxu.redblackassistant.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,18 +21,18 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     private List<Station> stationList;
     private Activity mActivity;
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView stationNameText;
-
-        public ViewHolder(View view) {
-            super(view);
-            stationNameText = view.findViewById(R.id.stationName_textView);
-        }
-    }
-
     public StationAdapter(List<Station> stations, Activity mActivity) {
         stationList = stations;
         this.mActivity = mActivity;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView stationNameText;
+
+        ViewHolder(View view) {
+            super(view);
+            stationNameText = view.findViewById(R.id.stationName_textView);
+        }
     }
 
     @Override
@@ -56,7 +57,7 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Station station = stationList.get(position);
         holder.stationNameText.setText(station.getStationName());
     }
