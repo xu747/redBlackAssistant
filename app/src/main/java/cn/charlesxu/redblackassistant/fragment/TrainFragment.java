@@ -3,6 +3,7 @@ package cn.charlesxu.redblackassistant.fragment;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ public class TrainFragment extends BaseFragment {
         superviseRecyclerView.setAdapter(superviseTicketAdapter);
 
         supervisingTicket();
+
 
         return view;
     }
